@@ -1,123 +1,214 @@
 package ru.otus;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class DIYArrayList<E> implements List<E> {
-  @Override
-  public int size() {
-    return 0;
-  }
 
-  @Override
-  public boolean isEmpty() {
-    return false;
-  }
+    private static final int DEFAULT_CAPACITY = 10;
 
-  @Override
-  public boolean contains(Object o) {
-    return false;
-  }
+    private E[] array;
+    private int size = 0;
 
-  @Override
-  public Iterator<E> iterator() {
-    return null;
-  }
+    public DIYArrayList() {
+        this(DEFAULT_CAPACITY);
+    }
 
-  @Override
-  public Object[] toArray() {
-    return new Object[0];
-  }
+    public DIYArrayList(int initialCapacity) {
+        if (initialCapacity <= 0) {
+            throw new IllegalArgumentException(String.format("Illegal Capacity: %s", initialCapacity));
+        }
+        array = (E[]) new Object[initialCapacity];
+    }
 
-  @Override
-  public <T> T[] toArray(T[] a) {
-    return null;
-  }
+    @Override
+    public int size() {
+        return size;
+    }
 
-  @Override
-  public boolean add(E e) {
-    return false;
-  }
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
-  @Override
-  public boolean remove(Object o) {
-    return false;
-  }
+    @Override
+    public boolean contains(Object o) {
+        for (E element : array) {
+            if (element.equals(o)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-  @Override
-  public boolean containsAll(Collection<?> c) {
-    return false;
-  }
+    @Override
+    public Iterator<E> iterator() {
+        return new ArrayIterator<>(array, size);
+    }
 
-  @Override
-  public boolean addAll(Collection<? extends E> c) {
-    return false;
-  }
+    @Override
+    public Object[] toArray() {
+        return Arrays.copyOf(this.array, size);
+    }
 
-  @Override
-  public boolean addAll(int index, Collection<? extends E> c) {
-    return false;
-  }
+    @Override
+    public <T> T[] toArray(T[] array) {
+        throw new UnsupportedOperationException();
+    }
 
-  @Override
-  public boolean removeAll(Collection<?> c) {
-    return false;
-  }
+    @Override
+    public boolean add(E element) {
+        if (size >= array.length) {
+            array = Arrays.copyOf(this.array, size + DEFAULT_CAPACITY);
+        }
+        array[size++] = element;
+        return true;
+    }
 
-  @Override
-  public boolean retainAll(Collection<?> c) {
-    return false;
-  }
+    @Override
+    public boolean addAll(Collection<? extends E> elements) {
+        boolean isAddedAll = false;
+        for (E element : elements)
+            isAddedAll = this.add(element);
+        return isAddedAll;
+    }
 
-  @Override
-  public void clear() {
+    @Override
+    public E get(int index) {
+        if (index < size) {
+            return array[index];
+        }
+        return null;
+    }
 
-  }
+    @Override
+    public E set(int index, E element) {
+        if (index < size) {
+            array[index] = element;
+            return element;
+        }
+        return null;
+    }
 
-  @Override
-  public E get(int index) {
-    return null;
-  }
+    @Override
+    public ListIterator<E> listIterator() {
+        return new ArrayIterator<>(array, size);
+    }
 
-  @Override
-  public E set(int index, E element) {
-    return null;
-  }
+    @Override
+    public boolean remove(Object o) {
+        throw new UnsupportedOperationException();
+    }
 
-  @Override
-  public void add(int index, E element) {
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        throw new UnsupportedOperationException();
+    }
 
-  }
+    @Override
+    public boolean addAll(int index, Collection<? extends E> c) {
+        throw new UnsupportedOperationException();
+    }
 
-  @Override
-  public E remove(int index) {
-    return null;
-  }
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        throw new UnsupportedOperationException();
+    }
 
-  @Override
-  public int indexOf(Object o) {
-    throw new UnsupportedOperationException();
-  }
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new UnsupportedOperationException();
+    }
 
-  @Override
-  public int lastIndexOf(Object o) {
-    return 0;
-  }
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException();
+    }
 
-  @Override
-  public ListIterator<E> listIterator() {
-    return null;
-  }
 
-  @Override
-  public ListIterator<E> listIterator(int index) {
-    return null;
-  }
+    @Override
+    public void add(int index, E element) {
+        throw new UnsupportedOperationException();
+    }
 
-  @Override
-  public List<E> subList(int fromIndex, int toIndex) {
-    return null;
-  }
+    @Override
+    public E remove(int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ListIterator<E> listIterator(int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<E> subList(int fromIndex, int toIndex) {
+        throw new UnsupportedOperationException();
+    }
+
+    private static class ArrayIterator<E> implements ListIterator<E> {
+
+        private int index;
+        private final E[] array;
+        private final int size;
+
+        public ArrayIterator(E[] array, int size) {
+            this.array = array;
+            this.size = size;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public E next() {
+            return array[index++];
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public E previous() {
+            return array[index - 1];
+        }
+
+        @Override
+        public int nextIndex() {
+            return index;
+        }
+
+        @Override
+        public int previousIndex() {
+            return index - 1;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void set(E e) {
+            array[index - 1] = e;
+        }
+
+        @Override
+        public void add(E e) {
+            throw new UnsupportedOperationException();
+        }
+    }
 }
