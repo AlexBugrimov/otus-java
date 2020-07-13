@@ -5,8 +5,7 @@ import java.util.*;
 public class DIYArrayList<E> implements List<E> {
 
     private static final int DEFAULT_CAPACITY = 10;
-
-    private E[] array;
+    private E[] values;
     private int size = 0;
 
     public DIYArrayList() {
@@ -14,10 +13,8 @@ public class DIYArrayList<E> implements List<E> {
     }
 
     public DIYArrayList(int initialCapacity) {
-        if (initialCapacity <= 0) {
-            throw new IllegalArgumentException(String.format("Illegal Capacity: %s", initialCapacity));
-        }
-        array = (E[]) new Object[initialCapacity];
+        checkCapacity(initialCapacity);
+        values = (E[]) new Object[initialCapacity];
     }
 
     @Override
@@ -32,22 +29,17 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        for (E element : array) {
-            if (element.equals(o)) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.asList(values).contains(o);
     }
 
     @Override
     public Iterator<E> iterator() {
-        return new ArrayIterator<>(array, size);
+        return new DIYArrayIterator<>(values, size);
     }
 
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(this.array, size);
+        return Arrays.copyOf(this.values, size);
     }
 
     @Override
@@ -57,10 +49,10 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public boolean add(E element) {
-        if (size >= array.length) {
-            array = Arrays.copyOf(this.array, size + DEFAULT_CAPACITY);
+        if (size >= values.length) {
+            values = Arrays.copyOf(this.values, size + DEFAULT_CAPACITY);
         }
-        array[size++] = element;
+        values[size++] = element;
         return true;
     }
 
@@ -74,24 +66,20 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        if (index < size) {
-            return array[index];
-        }
-        return null;
+        checkRange(index);
+        return values[index];
     }
 
     @Override
     public E set(int index, E element) {
-        if (index < size) {
-            array[index] = element;
-            return element;
-        }
-        return null;
+        checkRange(index);
+        values[index] = element;
+        return element;
     }
 
     @Override
     public ListIterator<E> listIterator() {
-        return new ArrayIterator<>(array, size);
+        return new DIYArrayIterator<>(values, size);
     }
 
     @Override
@@ -124,7 +112,6 @@ public class DIYArrayList<E> implements List<E> {
         throw new UnsupportedOperationException();
     }
 
-
     @Override
     public void add(int index, E element) {
         throw new UnsupportedOperationException();
@@ -155,13 +142,25 @@ public class DIYArrayList<E> implements List<E> {
         throw new UnsupportedOperationException();
     }
 
-    private static class ArrayIterator<E> implements ListIterator<E> {
+    private void checkCapacity(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException(String.format("Illegal Capacity: %s", capacity));
+        }
+    }
 
-        private int index;
+    private void checkRange(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, size));
+        }
+    }
+
+    private static final class DIYArrayIterator<E> implements ListIterator<E> {
+
         private final E[] array;
         private final int size;
+        private int index;
 
-        public ArrayIterator(E[] array, int size) {
+        public DIYArrayIterator(E[] array, int size) {
             this.array = array;
             this.size = size;
         }
