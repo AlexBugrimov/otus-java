@@ -50,7 +50,7 @@ public class DIYArrayList<E> implements List<E> {
     @Override
     public boolean add(E element) {
         if (size >= values.length) {
-            values = Arrays.copyOf(this.values, size + DEFAULT_CAPACITY);
+            toIncreaseCapacity(DEFAULT_CAPACITY);
         }
         values[size++] = element;
         return true;
@@ -58,9 +58,11 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> elements) {
+        toIncreaseCapacity(elements.size());
         boolean isAddedAll = false;
-        for (E element : elements)
+        for (E element : elements) {
             isAddedAll = this.add(element);
+        }
         return isAddedAll;
     }
 
@@ -152,6 +154,10 @@ public class DIYArrayList<E> implements List<E> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, size));
         }
+    }
+
+    private void toIncreaseCapacity(int capacity) {
+        values = Arrays.copyOf(this.values, size + capacity);
     }
 
     private static final class DIYArrayIterator<E> implements ListIterator<E> {

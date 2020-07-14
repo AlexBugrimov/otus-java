@@ -2,6 +2,7 @@ package ru.otus;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -105,6 +106,15 @@ public class DIYArrayListTest {
         for (int i = 0; i < values2.size(); i++) {
             assertEquals(values2.get(i), values1.get(i));
         }
+    }
+
+    @Test
+    public void successfulAddingCollection() throws Exception {
+        final List<Integer> values = new DIYArrayList<>();
+        values.add(2020);
+        final List<Integer> collection = Arrays.asList(2021, 2022);
+        values.addAll(collection);
+        assertEquals(3, values.size());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
