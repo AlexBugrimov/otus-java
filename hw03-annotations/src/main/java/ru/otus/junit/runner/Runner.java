@@ -1,4 +1,4 @@
-package ru.otus.junit;
+package ru.otus.junit.runner;
 
 public interface Runner {
 
