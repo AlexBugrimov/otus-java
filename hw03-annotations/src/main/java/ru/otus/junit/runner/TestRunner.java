@@ -5,6 +5,7 @@ import ru.otus.junit.Before;
 import ru.otus.junit.Test;
 import ru.otus.junit.loader.Loader;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,9 +22,9 @@ public class TestRunner implements Runner {
     @Override
     public void run() {
         final Class<?>[] classes = classLoader.load();
-
         for (Class<?> clazz : classes) {
-            final Method[] methods = getMethods(clazz);
+            System.out.println("Class: " + clazz.getName());
+            final Method[] methods = clazz.getDeclaredMethods();
             int passedCount = 0;
             int failedCount = 0;
             int testNumber = 1;
@@ -33,47 +34,42 @@ public class TestRunner implements Runner {
                         .filter(method -> method.isAnnotationPresent(Test.class)).toArray(Method[]::new);
                 for (Method testMethod : testMethods) {
                     final Object instance = constructor.newInstance();
-                    Arrays.stream(methods)
-                            .filter(method -> method.isAnnotationPresent(Before.class))
-                            .findFirst().ifPresent(method -> {
-                        try {
-                            method.invoke(instance);
-                        } catch (IllegalAccessException | InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
-                    });
+                    findAndInvokeMethod(Before.class, methods, instance);
                     try {
                         testMethod.invoke(instance);
-
-                        System.out.println(testNumber + ". PASSED: "+ testMethod.getName());
+                        System.out.println("\t" + testNumber + ". PASSED: "+ testMethod.getName());
                         passedCount++;
                     } catch (Exception ex) {
-                        System.out.println(testNumber + ". FAILED: "+ testMethod.getName());
+                        System.out.println("\t" + testNumber + ". FAILED: "+ testMethod.getName());
                         failedCount++;
                     }
-                    Arrays.stream(methods)
-                            .filter(method -> method.isAnnotationPresent(After.class))
-                            .findFirst().ifPresent(method -> {
-                        try {
-                            method.invoke(instance);
-                        } catch (IllegalAccessException | InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
-                    });
+                    findAndInvokeMethod(After.class, methods, instance);
                     testNumber++;
                 }
             } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
                 e.printStackTrace();
             }
-            System.out.println("---------------------------");
-            System.out.println("[PASSED] Успешных тестов: " + passedCount);
-            System.out.println("[FAILED] Проваленных тестов: " + failedCount);
-            System.out.println("---------------------------");
-            System.out.println("ИТОГО тестов: " + (passedCount + failedCount));
+            outReport(passedCount, failedCount);
         }
     }
 
-    private Method[] getMethods(Class<?> clazz) {
-        return clazz.getDeclaredMethods();
+    private void outReport(int passedCount, int failedCount) {
+        System.out.println("\t-----------------------------------");
+        System.out.println("\t[PASSED] Успешных тестов: " + passedCount);
+        System.out.println("\t[FAILED] Проваленных тестов: " + failedCount);
+        System.out.println("\tИТОГО: " + (passedCount + failedCount));
+        System.out.println("\t-----------------------------------");
+    }
+
+    private void findAndInvokeMethod(Class<? extends Annotation> annotation, Method[] methods, Object instance) {
+        Arrays.stream(methods)
+                .filter(method -> method.isAnnotationPresent(annotation))
+                .findFirst().ifPresent(method -> {
+            try {
+                method.invoke(instance);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
