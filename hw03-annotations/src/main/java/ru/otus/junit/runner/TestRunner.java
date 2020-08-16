@@ -4,6 +4,7 @@ import ru.otus.junit.After;
 import ru.otus.junit.Before;
 import ru.otus.junit.Test;
 import ru.otus.junit.loader.Loader;
+import ru.otus.junit.logger.TestLogger;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -14,9 +15,11 @@ import java.util.Arrays;
 public class TestRunner implements Runner {
 
     private final Loader<Class<?>[]> classLoader;
+    private final TestLogger testLogger;
 
-    public TestRunner(Loader<Class<?>[]> classLoader) {
+    public TestRunner(Loader<Class<?>[]> classLoader, TestLogger testLogger) {
         this.classLoader = classLoader;
+        this.testLogger = testLogger;
     }
 
     @Override
@@ -72,4 +75,6 @@ public class TestRunner implements Runner {
             }
         });
     }
+
+
 }
