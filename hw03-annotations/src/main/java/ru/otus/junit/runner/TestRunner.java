@@ -3,8 +3,8 @@ package ru.otus.junit.runner;
 import ru.otus.junit.After;
 import ru.otus.junit.Before;
 import ru.otus.junit.Test;
-import ru.otus.junit.loader.Loader;
-import ru.otus.junit.logger.TestLogger;
+import ru.otus.junit.runner.options.Options;
+import ru.otus.junit.runner.options.out.Output;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -14,19 +14,19 @@ import java.util.Arrays;
 
 public class TestRunner implements Runner {
 
-    private final Loader<Class<?>[]> classLoader;
-    private final TestLogger testLogger;
+    private final Options options;
+    private final Output output;
 
-    public TestRunner(Loader<Class<?>[]> classLoader, TestLogger testLogger) {
-        this.classLoader = classLoader;
-        this.testLogger = testLogger;
+    public TestRunner(Options options) {
+        this.options = options;
+        this.output = options.getOutput();
     }
 
     @Override
     public void run() {
-        final Class<?>[] classes = classLoader.load();
+        final Class<?>[] classes = options.getLoader().load();
         for (Class<?> clazz : classes) {
-            System.out.println("Class: " + clazz.getName());
+            output.print("Class: " + clazz.getName());
             final Method[] methods = clazz.getDeclaredMethods();
             int passedCount = 0;
             int failedCount = 0;
@@ -40,10 +40,10 @@ public class TestRunner implements Runner {
                     findAndInvokeMethod(Before.class, methods, instance);
                     try {
                         testMethod.invoke(instance);
-                        System.out.println("\t" + testNumber + ". PASSED: "+ testMethod.getName());
+                        output.print("\t" + testNumber + ". PASSED: "+ testMethod.getName());
                         passedCount++;
                     } catch (Exception ex) {
-                        System.out.println("\t" + testNumber + ". FAILED: "+ testMethod.getName());
+                        output.print("\t" + testNumber + ". FAILED: "+ testMethod.getName());
                         failedCount++;
                     }
                     findAndInvokeMethod(After.class, methods, instance);
@@ -75,6 +75,4 @@ public class TestRunner implements Runner {
             }
         });
     }
-
-
 }

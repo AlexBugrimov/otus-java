@@ -9,8 +9,9 @@ dependencies {
     implementation ('org.assertj:assertj-core')
     implementation ('org.mockito:mockito-core')
     implementation ('org.mockito:mockito-junit-jupiter')
-    implementation 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly ('org.projectlombok:lombok')
+    implementation 'org.jetbrains:annotations:19.0.0'
+    annotationProcessor ('org.projectlombok:lombok')
 }
 
 test {

@@ -16,19 +16,19 @@ public class TagTest {
     }
 
     @Test
-    public void tagAsStringTest() throws Exception {
+    public void tagAsStringTest() {
         assertThat(tag.asString())
                 .isEqualTo("<div>");
     }
 
     @Test
-    public void tagIsValidTest() throws Exception {
+    public void tagIsValidTest() {
         assertThat(tag.isValid())
                 .isTrue();
     }
 
     @Test
-    public void tagIsNotValidTest() throws Exception {
+    public void tagIsNotValidTest() {
         Tag invalidTag = new Tag("<span >>>");
         assertThat(invalidTag.isValid())
                 .isFalse();

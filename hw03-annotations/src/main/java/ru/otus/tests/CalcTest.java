@@ -18,31 +18,31 @@ public class CalcTest {
     }
 
     @Test
-    public void additionTest() throws Exception {
+    public void additionTest() {
         assertThat(calc.add())
                 .isEqualTo(121);
     }
 
     @Test
-    public void subtractionTest() throws Exception {
+    public void subtractionTest() {
         assertThat(calc.sub())
                 .isEqualTo(8);
     }
 
     @Test
-    public void multiplicationTest() throws Exception {
+    public void multiplicationTest() {
         assertThat(calc.mul())
                 .isEqualTo(20);
     }
 
     @Test
-    public void divisionTest() throws Exception {
+    public void divisionTest() {
         assertThat(calc.div())
                 .isEqualTo(55);
     }
 
     @Test
-    public void divisionByZeroTest() throws Exception {
+    public void divisionByZeroTest() {
         Throwable thrown = catchThrowable(() -> calc.setNum2(0).div());
         assertThat(thrown)
                 .isInstanceOf(ArithmeticException.class)

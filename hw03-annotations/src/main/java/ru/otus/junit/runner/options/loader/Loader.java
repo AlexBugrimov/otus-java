@@ -1,4 +1,4 @@
-package ru.otus.junit.loader;
+package ru.otus.junit.runner.options.loader;
 
 public interface Loader<T> {
 
