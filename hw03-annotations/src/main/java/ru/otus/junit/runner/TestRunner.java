@@ -1,59 +1,69 @@
 package ru.otus.junit.runner;
 
+import lombok.AllArgsConstructor;
 import ru.otus.junit.After;
 import ru.otus.junit.Before;
 import ru.otus.junit.Test;
 import ru.otus.junit.runner.options.Options;
-import ru.otus.junit.runner.options.out.Output;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+@AllArgsConstructor
 public class TestRunner implements Runner {
 
     private final Options options;
-    private final Output output;
-
-    public TestRunner(Options options) {
-        this.options = options;
-        this.output = options.getOutput();
-    }
 
     @Override
     public void run() {
-        final Class<?>[] classes = options.getLoader().load();
-        for (Class<?> clazz : classes) {
-            output.print("Class: " + clazz.getName());
-            final Method[] methods = clazz.getDeclaredMethods();
-            int passedCount = 0;
-            int failedCount = 0;
-            int testNumber = 1;
-            try {
-                Constructor<?> constructor  = clazz.getConstructor();
-                final Method[] testMethods = Arrays.stream(methods)
-                        .filter(method -> method.isAnnotationPresent(Test.class)).toArray(Method[]::new);
-                for (Method testMethod : testMethods) {
-                    final Object instance = constructor.newInstance();
-                    findAndInvokeMethod(Before.class, methods, instance);
-                    try {
-                        testMethod.invoke(instance);
-                        output.print("\t" + testNumber + ". PASSED: "+ testMethod.getName());
-                        passedCount++;
-                    } catch (Exception ex) {
-                        output.print("\t" + testNumber + ". FAILED: "+ testMethod.getName());
-                        failedCount++;
-                    }
-                    findAndInvokeMethod(After.class, methods, instance);
-                    testNumber++;
-                }
-            } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-            outReport(passedCount, failedCount);
-        }
+        var classes = options.getLoader().load();
+        var runResults = Stream.of(classes)
+                .map(this::invokeClass)
+                .collect(Collectors.toList());
+        System.out.println(runResults);
+//        for (Class<?> clazz : classes) {
+//            output.print("Class: %s\n", testClass.getName());
+//            final Method[] methods = clazz.getDeclaredMethods();
+//            int passedCount = 0;
+//            int failedCount = 0;
+//            int testNumber = 1;
+//            testClass.invokeMethods(Before.class);
+//            testClass.invokeMethods(Test.class);
+//            testClass.invokeMethods(After.class);
+//            final Method[] testMethods = Arrays.stream(methods)
+//                    .filter(method -> method.isAnnotationPresent(Test.class)).toArray(Method[]::new);
+//            for (Method testMethod : testMethods) {
+//                final Object instance = testClass.instance();
+//                findAndInvokeMethod(Before.class, methods, instance);
+//                try {
+//                    testMethod.invoke(instance);
+//                    output.print("\t %s. PASSED: %s\n", testNumber, testMethod.getName());
+//                    passedCount++;
+//                } catch (Exception ex) {
+//                    output.print("\t %s. FAILED: %s\n", testNumber, testMethod.getName());
+//                    failedCount++;
+//                }
+//                findAndInvokeMethod(After.class, methods, instance);
+//                testNumber++;
+//            }
+//            outReport(passedCount, failedCount);
+//        }
+    }
+
+    private Map<Class<?>, List<TestClass.Result>> invokeClass(Class<?> clazz) {
+        var testClass = TestClass.of(clazz);
+
+        testClass.invokeMethods(Before.class);
+        final var results = testClass.invokeMethods(Test.class);
+        testClass.invokeMethods(After.class);
+
+        return Map.of(clazz, results);
     }
 
     private void outReport(int passedCount, int failedCount) {

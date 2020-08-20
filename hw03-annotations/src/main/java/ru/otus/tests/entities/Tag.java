@@ -1,21 +1,14 @@
 package ru.otus.tests.entities;
 
+import lombok.*;
+
+@Data
+@RequiredArgsConstructor
 public class Tag {
 
-    private final String value;
+    @NonNull private final String value;
+
     private String attributeValue;
-
-    public Tag(String value) {
-        this.value = value;
-    }
-
-    public String getAttributeValue() {
-        return attributeValue;
-    }
-
-    public void setAttributeValue(String attribute) {
-        this.attributeValue = attribute;
-    }
 
     public boolean isValid() {
         return value.matches("<([A-Za-z]*)\\b[^>]*>");

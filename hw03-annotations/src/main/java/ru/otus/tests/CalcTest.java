@@ -18,7 +18,7 @@ public class CalcTest {
     }
 
     @Test
-    public void additionTest() {
+    public void additionTestExpectedError() {
         assertThat(calc.add())
                 .isEqualTo(121);
     }
@@ -36,7 +36,7 @@ public class CalcTest {
     }
 
     @Test
-    public void divisionTest() {
+    public void divisionTestExpectedError() {
         assertThat(calc.div())
                 .isEqualTo(55);
     }

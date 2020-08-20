@@ -1,19 +1,15 @@
 package ru.otus.junit.runner.options.loader;
 
-import lombok.Getter;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Optional;
 
-@Getter
+@Data
 public class ClassPath {
 
     private final String path;
-
-    public ClassPath(String path) {
-        this.path = path;
-    }
 
     public File toFile() {
         return new File(getPathName());
