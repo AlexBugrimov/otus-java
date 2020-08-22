@@ -16,4 +16,4 @@ final Options options = new RunnerOptions(
 
 #### Результаты:
 
-![Results](https://github.com/AlexBugrimov/otus-java/edit/hw03-annotations/hw03-annotations/result.png)
+![Results](https://github.com/AlexBugrimov/otus-java/blob/hw03-annotations/hw03-annotations/result.png)
