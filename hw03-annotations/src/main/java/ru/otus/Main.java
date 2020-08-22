@@ -5,7 +5,7 @@ import ru.otus.junit.runner.options.Options;
 import ru.otus.junit.runner.options.RunnerOptions;
 import ru.otus.junit.runner.options.loader.ClassLoader;
 import ru.otus.junit.runner.options.loader.ClassPath;
-import ru.otus.junit.runner.options.out.ConsoleOutput;
+import ru.otus.junit.runner.options.out.OutputToConsole;
 
 public class Main {
 
@@ -13,7 +13,7 @@ public class Main {
 
         final Options options = new RunnerOptions(
                 new ClassLoader(new ClassPath("ru.otus.tests")),
-                new ConsoleOutput(),
+                new OutputToConsole(),
                 true,
                 true
         );

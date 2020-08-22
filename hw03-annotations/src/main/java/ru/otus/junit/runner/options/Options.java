@@ -9,7 +9,7 @@ public interface Options {
 
     Output getOutput();
 
-    boolean isShowTestCases();
+    boolean isPrintTestTrace();
 
-    boolean isShowReport();
+    boolean isPrintReport();
 }

@@ -1,9 +1,6 @@
 package ru.otus.junit.runner;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -17,7 +14,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(staticName = "of")
 public class TestClass {
 
-    @NonNull private final Class<?> clazz;
+    @NonNull
+    private final Class<?> clazz;
     private Object instance;
 
     @SneakyThrows
@@ -49,18 +47,28 @@ public class TestClass {
     }
 
     @Getter
+    @AllArgsConstructor
     public static class Result {
 
         final Type type;
-        final String message;
+        final String description;
 
-        public Result(Type type, String message) {
-            this.type = type;
-            this.message = message;
+        @Getter
+        @AllArgsConstructor
+        public enum Type {
+            SUCCESS("passed"), ERROR("failed");
+
+            private final String state;
+
+            @Override
+            public String toString() {
+                return String.format("[ %s ]", state.toUpperCase());
+            }
         }
 
-        enum Type {
-            SUCCESS, ERROR
+        @Override
+        public String toString() {
+            return type + ": " + description;
         }
     }
 
