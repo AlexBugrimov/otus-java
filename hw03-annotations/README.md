@@ -15,3 +15,5 @@ final Options options = new RunnerOptions(
 * isPrintReport - печатать отчет (true/false)
 
 #### Результаты:
+
+![Results](https://github.com/AlexBugrimov/otus-java/edit/hw03-annotations/hw03-annotations/result.png)
