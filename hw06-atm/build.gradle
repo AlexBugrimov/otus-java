@@ -1,3 +1,28 @@
 plugins {
     id 'java'
 }
+
+dependencies {
+    implementation ('org.junit.jupiter:junit-jupiter-api')
+    implementation ('org.junit.jupiter:junit-jupiter-engine')
+    implementation ('org.junit.jupiter:junit-jupiter-params')
+    implementation ('org.assertj:assertj-core')
+    implementation ('org.mockito:mockito-core')
+    implementation ('org.mockito:mockito-junit-jupiter')
+    compileOnly ('org.projectlombok:lombok')
+    implementation 'org.jetbrains:annotations:19.0.0'
+    annotationProcessor ('org.projectlombok:lombok')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.with {
+        encoding = 'UTF-8'
+    }
+}
