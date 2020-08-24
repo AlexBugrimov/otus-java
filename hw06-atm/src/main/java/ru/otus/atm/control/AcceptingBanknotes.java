@@ -1,9 +1,9 @@
 package ru.otus.atm.control;
 
-import ru.otus.atm.receiver.ReceiverOfBanknotes;
+import ru.otus.atm.receiver.AcceptorOfBanknotes;
 
 public interface AcceptingBanknotes {
 
-    void doSwitch(ReceiverOfBanknotes receiverOfBanknotes);
+    void doSwitch(AcceptorOfBanknotes acceptorOfBanknotes);
 
 }

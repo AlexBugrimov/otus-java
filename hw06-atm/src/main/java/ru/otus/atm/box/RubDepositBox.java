@@ -1,6 +1,6 @@
 package ru.otus.atm.box;
 
-import ru.otus.Banknote;
+import ru.otus.currency.Banknote;
 
 import java.util.List;
 

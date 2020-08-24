@@ -4,8 +4,9 @@ import ru.otus.atm.Atm;
 import ru.otus.atm.box.RubDepositBox;
 import ru.otus.atm.control.Computer;
 import ru.otus.atm.payer.AutoPayerOfBanknotes;
-import ru.otus.atm.receiver.BoxReceiverOfBanknotes;
+import ru.otus.atm.receiver.BoxAcceptorOfBanknotes;
 import ru.otus.atm.receiver.State;
+import ru.otus.currency.Banknote;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
         final Atm atm = new Atm(
-                new BoxReceiverOfBanknotes(State.CLOSE, BOX_RECEIVER_SIZE),
+                new BoxAcceptorOfBanknotes(State.CLOSE, BOX_RECEIVER_SIZE),
                 new Computer(),
                 new RubDepositBox(),
                 new AutoPayerOfBanknotes()

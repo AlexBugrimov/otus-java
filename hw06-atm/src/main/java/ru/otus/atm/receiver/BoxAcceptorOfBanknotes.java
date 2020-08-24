@@ -2,19 +2,19 @@ package ru.otus.atm.receiver;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.otus.Banknote;
+import ru.otus.currency.Banknote;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class BoxReceiverOfBanknotes implements ReceiverOfBanknotes {
+public class BoxAcceptorOfBanknotes implements AcceptorOfBanknotes {
 
     private State state;
     private List<Banknote> boxOfBanknotes;
 
-    public BoxReceiverOfBanknotes(State state, int boxSize) {
+    public BoxAcceptorOfBanknotes(State state, int boxSize) {
         this.state = state;
         this.boxOfBanknotes = new ArrayList<>(boxSize);
     }

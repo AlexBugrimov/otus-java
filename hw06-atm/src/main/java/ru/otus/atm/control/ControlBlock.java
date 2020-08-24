@@ -5,5 +5,5 @@ import ru.otus.atm.shift.Target;
 
 public interface ControlBlock extends AcceptingBanknotes {
 
-    void shift(Source from, Target to);
+    void transfer(Source from, Target to);
 }
