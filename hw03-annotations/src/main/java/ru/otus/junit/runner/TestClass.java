@@ -1,7 +1,6 @@
 package ru.otus.junit.runner;
 
 import lombok.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -72,7 +71,7 @@ public class TestClass {
         }
     }
 
-    @NotNull
+    @NonNull
     private Constructor<?> getConstructor() throws NoSuchMethodException {
         return clazz.getConstructor();
     }

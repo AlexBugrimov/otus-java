@@ -2,6 +2,9 @@ plugins {
     id 'java'
 }
 
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
+
 dependencies {
     implementation ('org.junit.jupiter:junit-jupiter-api')
     implementation ('org.junit.jupiter:junit-jupiter-engine')
@@ -10,8 +13,11 @@ dependencies {
     implementation ('org.mockito:mockito-core')
     implementation ('org.mockito:mockito-junit-jupiter')
     compileOnly ('org.projectlombok:lombok')
-    implementation 'org.jetbrains:annotations:19.0.0'
     annotationProcessor ('org.projectlombok:lombok')
+}
+
+compileJava {
+    options.compilerArgs += ["--enable-preview"]
 }
 
 test {

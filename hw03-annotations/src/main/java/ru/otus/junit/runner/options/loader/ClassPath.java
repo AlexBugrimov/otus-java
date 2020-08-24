@@ -1,7 +1,7 @@
 package ru.otus.junit.runner.options.loader;
 
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 
 import java.io.File;
 import java.util.Optional;
@@ -15,7 +15,7 @@ public class ClassPath {
         return new File(getPathName());
     }
 
-    @NotNull
+    @NonNull
     private String getPathName() {
         final var unixPath = getUnixPath(path);
         final var loader = ClassPath.class.getClassLoader();
@@ -23,7 +23,7 @@ public class ClassPath {
         return url.orElseThrow().getFile();
     }
 
-    @NotNull
+    @NonNull
     private String getUnixPath(String path) {
         return path.replace('.', '/');
     }

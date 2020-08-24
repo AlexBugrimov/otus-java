@@ -1,6 +1,6 @@
 package ru.otus.junit.runner.options.loader;
 
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 import ru.otus.junit.runner.options.utils.Mapper;
 
 import java.io.File;
@@ -12,7 +12,7 @@ public final class ClassLoader implements Loader<Class<?>[]> {
     private static final File[] NO_FILES = {};
     private final ClassPath classPath;
 
-    public ClassLoader(@NotNull ClassPath classPath) {
+    public ClassLoader(@NonNull ClassPath classPath) {
         this.classPath = classPath;
     }
 
