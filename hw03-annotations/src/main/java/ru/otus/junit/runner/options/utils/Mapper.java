@@ -1,6 +1,7 @@
 package ru.otus.junit.runner.options.utils;
 
 import lombok.SneakyThrows;
+import ru.otus.junit.runner.ResultOfRunning;
 import ru.otus.junit.runner.TestClass;
 import ru.otus.junit.runner.options.out.Color;
 
@@ -35,8 +36,9 @@ public class Mapper {
         };
     }
 
-    public static BiFunction<Map<? extends Class<?>, List<TestClass.Result>>, Predicate<TestClass.Result>, Long> toCountResults =
-            (results, predicate) -> results.values().stream()
+    public static BiFunction<List<ResultOfRunning>, Predicate<TestClass.Result>, Long> toCountResults =
+            (results, predicate) -> results.stream()
+                    .map(ResultOfRunning::getResults)
                     .flatMap(List::stream)
                     .filter(predicate)
                     .count();

@@ -8,8 +8,6 @@ import ru.otus.junit.runner.options.loader.Loader;
 import ru.otus.junit.runner.options.out.Output;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,12 +27,10 @@ public class TestRunner implements Runner {
 
     @Override
     public void run() {
-        var classes = loader.load();
-        var runResults = Stream.of(classes)
+        Class<?>[] classes = loader.load();
+        List<ResultOfRunning> runResults = Stream.of(classes)
                 .map(this::invokeTestClass)
-                .map(Map::entrySet)
-                .flatMap(Set::stream)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toList());
 
         if (isPrintTestTrace) {
             this.output.printTestTrace(runResults);
@@ -45,13 +41,13 @@ public class TestRunner implements Runner {
         }
     }
 
-    private Map<Class<?>, List<TestClass.Result>> invokeTestClass(Class<?> clazz) {
+    private ResultOfRunning invokeTestClass(Class<?> clazz) {
         var testClass = TestClass.of(clazz);
 
         testClass.invokeMethods(Before.class);
         final var results = testClass.invokeMethods(Test.class);
         testClass.invokeMethods(After.class);
 
-        return Map.of(clazz, results);
+        return new ResultOfRunning(clazz, results);
     }
 }

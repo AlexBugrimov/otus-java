@@ -1,5 +1,6 @@
 package ru.otus.junit.runner.options.out;
 
+import ru.otus.junit.runner.ResultOfRunning;
 import ru.otus.junit.runner.TestClass;
 import ru.otus.junit.runner.options.utils.Mapper;
 
@@ -28,11 +29,11 @@ public class OutputToConsole implements Output {
             """;
 
     @Override
-    public void printTestTrace(Map<? extends Class<?>, List<TestClass.Result>> results) {
-        results.forEach((testClass, tests) -> {
-            print(Color.YELLOW, CLASS_TEMPLATE, testClass.getName());
+    public void printTestTrace(List<ResultOfRunning> results) {
+        results.forEach(result -> {
+            print(Color.YELLOW, CLASS_TEMPLATE, result.getClazz().getName());
             final int[] index = {0};
-            tests.forEach(test -> {
+            result.getResults().forEach(test -> {
                 final var type = test.getType();
                 print(Mapper.toColor(type), TEST_TEMPLATE, ++index[0], type, test.getDescription());
             });
@@ -40,10 +41,10 @@ public class OutputToConsole implements Output {
     }
 
     @Override
-    public void printReport(Map<? extends Class<?>, List<TestClass.Result>> results) {
-        final String testClasses = results.keySet()
+    public void printReport(List<ResultOfRunning> results) {
+        final String testClasses = results
                 .stream()
-                .map(Class::getSimpleName)
+                .map(result -> result.getClazz().getSimpleName())
                 .collect(Collectors.joining(", "));
 
         long successCount = toCountResults.apply(results, result -> result.getType().equals(TestClass.Result.Type.SUCCESS));
