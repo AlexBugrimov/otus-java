@@ -5,7 +5,6 @@ import ru.otus.junit.runner.TestClass;
 import ru.otus.junit.runner.options.utils.Mapper;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
