@@ -1,20 +1,20 @@
 package ru.otus.currency;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import java.util.Comparator;
 
-@RequiredArgsConstructor
 public class Ruble implements Banknote {
 
     private final Nominal nominal;
 
-    @Override
-    public int getNominal() {
-        return nominal.getValue();
+    public Ruble(Nominal nominal) {
+        this.nominal = nominal;
     }
 
-    @Getter
-    @RequiredArgsConstructor
+    @Override
+    public Nominal getNominal() {
+        return nominal;
+    }
+
     public enum Nominal {
 
         HUNDRED(100),
@@ -23,6 +23,14 @@ public class Ruble implements Banknote {
         THOUSAND(1000),
         FIVE_THOUSAND(5000);
 
-        private final int value;
+        private final Integer number;
+
+        Nominal(Integer number) {
+            this.number = number;
+        }
+
+        public Integer getNumber() {
+            return this.number;
+        }
     }
 }
