@@ -1,36 +1,40 @@
 package ru.otus.tinkoff;
 
-import ru.otus.modules.controller.commands.Command;
-import ru.otus.modules.controller.commands.Result;
-import ru.otus.currency.Banknote;
-import ru.otus.modules.dispenser.DispenserForBanknotes;
+import ru.otus.controller.ControlBlock;
+import ru.otus.controller.commands.Command;
+import ru.otus.controller.commands.Result;
+import ru.otus.Banknote;
+import ru.otus.dispenser.DispenserForBanknotes;
+import ru.otus.safe.DepositBox;
 
 import java.util.List;
 
 public class TinkoffAtm implements Atm {
 
-    private final Modules modules;
+    private final DispenserForBanknotes dispenser;
+    private final ControlBlock controlBlock;
+    private final DepositBox depositBox;
 
-    public TinkoffAtm(Modules modules) {
-        this.modules = modules;
+    public TinkoffAtm(DispenserForBanknotes dispenser,
+                      ControlBlock controlBlock,
+                      DepositBox depositBox) {
+        this.dispenser = dispenser;
+        this.controlBlock = controlBlock;
+        this.depositBox = depositBox;
     }
 
     @Override
     public void depositMoney(List<Banknote> banknotes) {
-        getDispenser().putBanknotes(banknotes);
+        dispenser.addBanknotes(banknotes);
     }
 
     @Override
-    public List<Banknote> giveOutMoney() {
-        return getDispenser().giveOutBanknotes();
+    public List<Banknote> getMoney() {
+        return dispenser.getBanknotes();
     }
 
     @Override
     public Result execute(Command command) {
-        return command.execute(modules);
-    }
-
-    private DispenserForBanknotes getDispenser() {
-        return modules.getDispenser();
+        return command.execute(dispenser, controlBlock, depositBox);
     }
 }

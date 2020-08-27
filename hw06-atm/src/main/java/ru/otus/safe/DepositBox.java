@@ -1,6 +1,6 @@
-package ru.otus.modules.safe;
+package ru.otus.safe;
 
-import ru.otus.currency.Banknote;
+import ru.otus.Banknote;
 
 import java.util.List;
 

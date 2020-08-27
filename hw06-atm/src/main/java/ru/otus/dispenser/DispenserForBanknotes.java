@@ -1,14 +1,14 @@
-package ru.otus.modules.dispenser;
+package ru.otus.dispenser;
 
-import ru.otus.currency.Banknote;
+import ru.otus.Banknote;
 
 import java.util.List;
 
 public interface DispenserForBanknotes {
 
-    void putBanknotes(List<Banknote> banknotes);
+    void addBanknotes(List<Banknote> banknotes);
 
-    List<Banknote> giveOutBanknotes();
+    List<Banknote> getBanknotes();
 
     boolean pushBanknotes(List<Banknote> banknotes);
 

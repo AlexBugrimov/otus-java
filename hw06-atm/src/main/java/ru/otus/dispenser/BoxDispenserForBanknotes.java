@@ -1,6 +1,6 @@
-package ru.otus.modules.dispenser;
+package ru.otus.dispenser;
 
-import ru.otus.currency.Banknote;
+import ru.otus.Banknote;
 
 import java.util.*;
 
@@ -13,12 +13,12 @@ public class BoxDispenserForBanknotes implements DispenserForBanknotes {
     }
 
     @Override
-    public void putBanknotes(List<Banknote> banknotes) {
+    public void addBanknotes(List<Banknote> banknotes) {
         this.banknotes.addAll(banknotes);
     }
 
     @Override
-    public List<Banknote> giveOutBanknotes() {
+    public List<Banknote> getBanknotes() {
         final List<Banknote> banknotes = new ArrayList<>(this.banknotes);
         this.banknotes.clear();
         return banknotes;

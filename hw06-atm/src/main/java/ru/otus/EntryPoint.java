@@ -1,18 +1,15 @@
 package ru.otus;
 
-import ru.otus.currency.Banknote;
-import ru.otus.currency.Ruble;
-import ru.otus.currency.Ruble.Nominal;
-import ru.otus.modules.controller.PowerfulControlBlock;
-import ru.otus.modules.controller.commands.GetBalanceCommand;
-import ru.otus.modules.controller.commands.GetCashCommand;
-import ru.otus.modules.controller.commands.Result;
-import ru.otus.modules.controller.commands.TakeMoneyCommand;
-import ru.otus.modules.dispenser.BoxDispenserForBanknotes;
-import ru.otus.modules.dispenser.DispenserForBanknotes.Size;
-import ru.otus.modules.safe.RubleDepositBox;
+import ru.otus.Ruble.Nominal;
+import ru.otus.controller.PowerfulControlBlock;
+import ru.otus.controller.commands.GetBalanceCommand;
+import ru.otus.controller.commands.GetCashCommand;
+import ru.otus.controller.commands.Result;
+import ru.otus.controller.commands.TakeMoneyCommand;
+import ru.otus.dispenser.BoxDispenserForBanknotes;
+import ru.otus.dispenser.DispenserForBanknotes.Size;
+import ru.otus.safe.RubleDepositBox;
 import ru.otus.tinkoff.Atm;
-import ru.otus.tinkoff.Modules;
 import ru.otus.tinkoff.TinkoffAtm;
 
 import java.util.Arrays;
@@ -22,11 +19,9 @@ public class EntryPoint {
 
     public static void main(String[] args) {
         final Atm tinkoffAtm = new TinkoffAtm(
-                new Modules(
-                        new BoxDispenserForBanknotes(Size.SMALL),
-                        new PowerfulControlBlock(),
-                        new RubleDepositBox()
-                )
+                new BoxDispenserForBanknotes(Size.SMALL),
+                new PowerfulControlBlock(),
+                new RubleDepositBox()
         );
 
         final List<Banknote> banknotes = Arrays.asList(
@@ -53,14 +48,21 @@ public class EntryPoint {
         // Положить деньги в приемник
         tinkoffAtm.depositMoney(banknotes);
         // Положить деньги
-        final Result takeMoneyResult = tinkoffAtm.execute(new TakeMoneyCommand());
+        final Result takeMoney = tinkoffAtm.execute(new TakeMoneyCommand());
+        System.out.println("Команда (внести деньги): " + takeMoney);
 
-        final Result getBalanceResult = tinkoffAtm.execute(new GetBalanceCommand());
+        final Result balanceBefore = tinkoffAtm.execute(new GetBalanceCommand());
+        System.out.println("Команда (получить баланс): " + balanceBefore);
+
         // Выдать сумму в размере
-        final Result getCashResult = tinkoffAtm.execute(new GetCashCommand(3_600));
-        // Забрать деньги
-        final List<Banknote> money = tinkoffAtm.giveOutMoney();
+        final Result cash = tinkoffAtm.execute(new GetCashCommand(3_600));
+        System.out.println("Команда (выдать сумму): " + cash);
 
-        final Result result = tinkoffAtm.execute(new GetBalanceCommand());
+        // Забрать деньги
+        final List<Banknote> money = tinkoffAtm.getMoney();
+        System.out.println("Получение денег: " + money);
+
+        final Result balanceAfter = tinkoffAtm.execute(new GetBalanceCommand());
+        System.out.println("Команда (получить баланс): " + balanceAfter);
     }
 }

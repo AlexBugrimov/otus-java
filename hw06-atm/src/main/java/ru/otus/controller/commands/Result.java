@@ -1,4 +1,4 @@
-package ru.otus.modules.controller.commands;
+package ru.otus.controller.commands;
 
 public class Result {
 
@@ -10,11 +10,8 @@ public class Result {
         this.message = message;
     }
 
-    public boolean isExecuted() {
-        return isExecuted;
-    }
-
-    public String getMessage() {
-        return message;
+    @Override
+    public String toString() {
+        return String.format("Результат { %s - %s }", isExecuted, message);
     }
 }

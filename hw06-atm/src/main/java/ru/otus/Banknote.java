@@ -1,4 +1,4 @@
-package ru.otus.currency;
+package ru.otus;
 
 public interface Banknote {
 

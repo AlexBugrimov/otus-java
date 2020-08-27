@@ -1,4 +1,4 @@
-package ru.otus.currency;
+package ru.otus;
 
 public class Ruble implements Banknote {
 
@@ -30,5 +30,15 @@ public class Ruble implements Banknote {
         public Integer getNumber() {
             return this.number;
         }
+
+        @Override
+        public String toString() {
+            return number.toString();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return nominal.toString() + "руб.";
     }
 }
