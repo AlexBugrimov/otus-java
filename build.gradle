@@ -3,7 +3,7 @@ plugins {
     id 'idea'
     id "io.spring.dependency-management" version "1.0.9.RELEASE"
     // Build uber-jar
-    id 'com.github.johnrengelman.shadow' version '5.2.0' apply false
+    id 'com.github.johnrengelman.shadow' version '6.0.0' apply false
 }
 
 idea {

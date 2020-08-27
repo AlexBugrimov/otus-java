@@ -3,5 +3,6 @@
 rootProject.name = 'otus-java'
 include 'hw01-gradle'
 include 'hw02-DIYArrayList'
+include 'hw03-annotations'
 include 'hw06-atm'
 
