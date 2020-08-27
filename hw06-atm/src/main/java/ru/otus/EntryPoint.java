@@ -1,13 +1,13 @@
 package ru.otus;
 
+import ru.otus.currency.Banknote;
+import ru.otus.currency.Ruble;
+import ru.otus.currency.Ruble.Nominal;
 import ru.otus.modules.controller.PowerfulControlBlock;
 import ru.otus.modules.controller.commands.GetBalanceCommand;
 import ru.otus.modules.controller.commands.GetCashCommand;
 import ru.otus.modules.controller.commands.Result;
 import ru.otus.modules.controller.commands.TakeMoneyCommand;
-import ru.otus.currency.Banknote;
-import ru.otus.currency.Ruble;
-import ru.otus.currency.Ruble.Nominal;
 import ru.otus.modules.dispenser.BoxDispenserForBanknotes;
 import ru.otus.modules.dispenser.DispenserForBanknotes.Size;
 import ru.otus.modules.safe.RubleDepositBox;
@@ -48,7 +48,7 @@ public class EntryPoint {
                 new Ruble(Nominal.THOUSAND),
                 new Ruble(Nominal.TWO_HUNDRED),
                 new Ruble(Nominal.TWO_HUNDRED)
-                );
+        );
 
         // Положить деньги в приемник
         tinkoffAtm.depositMoney(banknotes);

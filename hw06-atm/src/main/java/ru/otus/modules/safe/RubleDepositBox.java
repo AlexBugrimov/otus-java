@@ -5,6 +5,7 @@ import ru.otus.currency.Ruble;
 import ru.otus.exceptions.BalanceException;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class RubleDepositBox implements DepositBox {
 
@@ -38,9 +39,29 @@ public class RubleDepositBox implements DepositBox {
         if (amount > balance()) {
             throw new BalanceException("В банкомате недостаточно средств");
         }
-
-
-        return null;
+        List<Banknote> banknotes = new LinkedList<>();
+        box.forEach((nominal, count) -> {
+            for (int i = 0; i < count; i++) {
+                banknotes.add(new Ruble(nominal));
+            }
+        });
+        int currentBanknote = 0;
+        List<Banknote> result = new ArrayList<>();
+        while (currentBanknote <= banknotes.size() - 1) {
+            final Ruble.Nominal nominal = banknotes.get(currentBanknote).getNominal();
+            if (nominal.getNumber() > amount) {
+                currentBanknote++;
+            } else {
+                amount -= nominal.getNumber();
+                final Integer count = box.get(nominal);
+                box.put(nominal, count - 1);
+                result.add(new Ruble(nominal));
+            }
+        }
+        if (amount != 0) {
+            throw new BalanceException(String.format("В банкомате нет купюр для выдачи суммы: %s", amount));
+        }
+        return result;
     }
 
 }

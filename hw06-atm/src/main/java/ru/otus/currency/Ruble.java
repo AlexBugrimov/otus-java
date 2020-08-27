@@ -1,7 +1,5 @@
 package ru.otus.currency;
 
-import java.util.Comparator;
-
 public class Ruble implements Banknote {
 
     private final Nominal nominal;

@@ -10,7 +10,9 @@ public class Modules {
     private final ControlBlock controlBlock;
     private final DepositBox depositBox;
 
-    public Modules(DispenserForBanknotes dispenser, ControlBlock controlBlock, DepositBox depositBox) {
+    public Modules(DispenserForBanknotes dispenser,
+                   ControlBlock controlBlock,
+                   DepositBox depositBox) {
         this.dispenser = dispenser;
         this.controlBlock = controlBlock;
         this.depositBox = depositBox;
