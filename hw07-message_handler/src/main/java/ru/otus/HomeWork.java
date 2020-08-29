@@ -11,6 +11,13 @@ public class HomeWork {
      */
 
     public static void main(String[] args) {
+
+        new Message.Builder()
+                .field11("field11")
+                .field12("field12")
+                .field13("field13");
+
+
         /*
            по аналогии с Demo.class
            из элеменов "to do" создать new ComplexProcessor и обработать сообщение

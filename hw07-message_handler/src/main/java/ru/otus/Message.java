@@ -17,8 +17,6 @@ public class Message {
     private final String field12;
     private final String field13;
 
-    //todo: 1. Добавить поля field11 - field13
-
     private Message(String field1,
                     String field2,
                     String field3,
