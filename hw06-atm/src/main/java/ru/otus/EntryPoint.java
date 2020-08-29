@@ -1,6 +1,5 @@
 package ru.otus;
 
-import ru.otus.Ruble.Nominal;
 import ru.otus.controller.PowerfulControlBlock;
 import ru.otus.controller.commands.GetBalanceCommand;
 import ru.otus.controller.commands.GetCashCommand;
@@ -15,6 +14,8 @@ import ru.otus.tinkoff.TinkoffAtm;
 import java.util.Arrays;
 import java.util.List;
 
+import static ru.otus.Rub.*;
+
 public class EntryPoint {
 
     public static void main(String[] args) {
@@ -25,24 +26,11 @@ public class EntryPoint {
         );
 
         final List<Banknote> banknotes = Arrays.asList(
-                new Ruble(Nominal.HUNDRED),
-                new Ruble(Nominal.HUNDRED),
-                new Ruble(Nominal.HUNDRED),
-                new Ruble(Nominal.HUNDRED),
-                new Ruble(Nominal.HUNDRED),
-                new Ruble(Nominal.HUNDRED),
-                new Ruble(Nominal.HUNDRED),
-                new Ruble(Nominal.THOUSAND),
-                new Ruble(Nominal.THOUSAND),
-                new Ruble(Nominal.THOUSAND),
-                new Ruble(Nominal.THOUSAND),
-                new Ruble(Nominal.THOUSAND),
-                new Ruble(Nominal.THOUSAND),
-                new Ruble(Nominal.THOUSAND),
-                new Ruble(Nominal.FIVE_THOUSAND),
-                new Ruble(Nominal.THOUSAND),
-                new Ruble(Nominal.TWO_HUNDRED),
-                new Ruble(Nominal.TWO_HUNDRED)
+                RUB_100, RUB_100, RUB_100, RUB_100,
+                RUB_1000, RUB_1000, RUB_1000, RUB_1000, RUB_1000,
+                RUB_5000, RUB_5000,
+                RUB_500, RUB_500,
+                RUB_200, RUB_200, RUB_200
         );
 
         // Положить деньги в приемник
