@@ -5,17 +5,15 @@ import java.lang.reflect.Method;
 
 public class LoggingAnnotation {
 
-    private LoggingAnnotation() {}
+    private LoggingAnnotation() {
+    }
 
-    public static boolean isPresentAnnotation(Object obj, Method method, Class<? extends Annotation> annotation) {
-        try {
-            return obj.getClass()
-                    .getMethod(method.getName(), method.getParameterTypes())
-                    .isAnnotationPresent(annotation);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public static boolean isPresentAnnotation(Object obj,
+                                              Method method,
+                                              Class<? extends Annotation> annotation) throws NoSuchMethodException {
+        return obj.getClass()
+                .getMethod(method.getName(), method.getParameterTypes())
+                .isAnnotationPresent(annotation);
     }
 
     public static void log(String template, Object... args) {
