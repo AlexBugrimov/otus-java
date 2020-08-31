@@ -4,7 +4,7 @@ import ru.otus.handler.ComplexProcessor;
 import ru.otus.listener.Listener;
 import ru.otus.listener.ListenerHistory;
 import ru.otus.processor.Processor;
-import ru.otus.processor.ProcessorSwapFields;
+import ru.otus.processor.ProcessorSwapFields11And13;
 import ru.otus.processor.ProcessorWithException;
 import ru.otus.processor.exceptions.TimeParityException;
 
@@ -22,7 +22,7 @@ public class HomeWork {
 
     public static void main(String[] args) {
         List<Processor> processors = List.of(
-                new ProcessorSwapFields(),
+                new ProcessorSwapFields11And13(),
                 new ProcessorWithException());
 
         final ComplexProcessor complexProcessor = new ComplexProcessor(processors, (ex) -> {
@@ -31,14 +31,20 @@ public class HomeWork {
         Listener listenerHistory = new ListenerHistory();
         complexProcessor.addListener(listenerHistory);
 
-        final Message message = new Message.Builder()
+        final Message originalMessage = new Message.Builder()
                 .field11("field11")
                 .field12("field12")
                 .field13("field13")
                 .build();
+        Message firstResult = complexProcessor.handle(originalMessage);
+        System.out.println("Result:" + firstResult);
 
-        Message result = complexProcessor.handle(message);
-        System.out.println("result:" + result);
+        Message lastResult = complexProcessor.handle(firstResult);
+        System.out.println("Result:" + lastResult);
+
+        Message totalResult = complexProcessor.handle(lastResult);
+        System.out.println("Result:" + totalResult);
+
         complexProcessor.removeListener(listenerHistory);
         /*
            по аналогии с Demo.class
