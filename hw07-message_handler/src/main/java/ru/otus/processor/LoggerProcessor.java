@@ -3,7 +3,6 @@ package ru.otus.processor;
 import ru.otus.Message;
 
 public class LoggerProcessor implements Processor {
-    //todo: 3. Сделать процессор, который будет выбрасывать исключение в четную секунду
 
     private final Processor processor;
 

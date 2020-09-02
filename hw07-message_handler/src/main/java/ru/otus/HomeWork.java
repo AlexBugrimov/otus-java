@@ -6,7 +6,7 @@ import ru.otus.listener.ListenerHistory;
 import ru.otus.processor.Processor;
 import ru.otus.processor.ProcessorSwapFields11And13;
 import ru.otus.processor.ProcessorWithException;
-import ru.otus.processor.exceptions.TimeParityException;
+import ru.otus.processor.exceptions.TimeSecondsException;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class HomeWork {
                 new ProcessorWithException());
 
         final ComplexProcessor complexProcessor = new ComplexProcessor(processors, (ex) -> {
-            throw new TimeParityException(ex);
+            throw new TimeSecondsException(ex);
         });
         Listener listenerHistory = new ListenerHistory();
         complexProcessor.addListener(listenerHistory);

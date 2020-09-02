@@ -7,7 +7,7 @@ import ru.otus.Message;
 import ru.otus.listener.Listener;
 import ru.otus.processor.DateTime;
 import ru.otus.processor.Processor;
-import ru.otus.processor.exceptions.TimeParityException;
+import ru.otus.processor.exceptions.TimeSecondsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,16 +81,16 @@ class ComplexProcessorTest {
         when(dateTime.getSeconds()).thenReturn(2);
 
         var processor = mock(Processor.class);
-        when(processor.process(eq(message))).thenThrow(new TimeParityException("Test Exception"));
+        when(processor.process(eq(message))).thenThrow(new TimeSecondsException("Test Exception"));
 
         var processors = List.of(processor);
 
         var complexProcessor = new ComplexProcessor(processors, (ex) -> {
-            throw new TimeParityException(ex);
+            throw new TimeSecondsException(ex);
         });
 
         //when
-        assertThatExceptionOfType(TimeParityException.class).isThrownBy(() -> complexProcessor.handle(message));
+        assertThatExceptionOfType(TimeSecondsException.class).isThrownBy(() -> complexProcessor.handle(message));
 
         //then
         verify(processor, times(1)).process(eq(message));
