@@ -9,8 +9,8 @@ public class ProcessorWithException implements Processor {
 
     @Override
     public Message process(Message message) {
-        final int second = LocalDateTime.now().getSecond();
-        if (second % 2 == 0) {
+        final DateTime dateTime = () -> LocalDateTime.now().getSecond();
+        if (dateTime.getSeconds() % 2 == 0) {
             throw new TimeParityException("Четная секунда");
         }
         return message;

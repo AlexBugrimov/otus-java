@@ -5,7 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.Message;
 import ru.otus.listener.Listener;
+import ru.otus.processor.DateTime;
 import ru.otus.processor.Processor;
+import ru.otus.processor.exceptions.TimeParityException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,31 @@ class ComplexProcessorTest {
         verify(processor, times(1)).process(eq(message));
         assertThat(result.getField11()).isEqualTo("field13");
         assertThat(result.getField13()).isEqualTo("field11");
+    }
+
+    @Test
+    @DisplayName("Тестируем исключение на четной секунде")
+    void timeExceptionTest() {
+        //given
+        var message = new Message.Builder().field8("field8").build();
+
+        var dateTime = mock(DateTime.class);
+        when(dateTime.getSeconds()).thenReturn(2);
+
+        var processor = mock(Processor.class);
+        when(processor.process(eq(message))).thenThrow(new TimeParityException("Test Exception"));
+
+        var processors = List.of(processor);
+
+        var complexProcessor = new ComplexProcessor(processors, (ex) -> {
+            throw new TimeParityException(ex);
+        });
+
+        //when
+        assertThatExceptionOfType(TimeParityException.class).isThrownBy(() -> complexProcessor.handle(message));
+
+        //then
+        verify(processor, times(1)).process(eq(message));
     }
 
     @Test
