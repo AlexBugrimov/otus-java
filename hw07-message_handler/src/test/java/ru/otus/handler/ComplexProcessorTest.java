@@ -44,6 +44,32 @@ class ComplexProcessorTest {
     }
 
     @Test
+    @DisplayName("Тестирование изменение значений полей местами")
+    void swapProcessorsTest() {
+        //given
+        var message = new Message.Builder().field11("field11").field13("field13").build();
+
+        var processor = mock(Processor.class);
+        when(processor.process(eq(message))).thenReturn(message.toBuilder()
+                .field11("field13")
+                .field13("field11")
+                .build());
+
+        var processors = List.of(processor);
+
+        var complexProcessor = new ComplexProcessor(processors, (ex) -> {
+        });
+
+        //when
+        var result = complexProcessor.handle(message);
+
+        //then
+        verify(processor, times(1)).process(eq(message));
+        assertThat(result.getField11()).isEqualTo("field13");
+        assertThat(result.getField13()).isEqualTo("field11");
+    }
+
+    @Test
     @DisplayName("Тестируем обработку исключения")
     void handleExceptionTest() {
         //given
