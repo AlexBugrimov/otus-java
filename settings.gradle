@@ -5,3 +5,5 @@ include 'hw01-gradle'
 include 'hw02-DIYArrayList'
 include 'hw03-annotations'
 include 'hw05-auto_log'
+include 'hw08-json_object_writer'
+
