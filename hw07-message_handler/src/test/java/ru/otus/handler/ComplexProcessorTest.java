@@ -5,10 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.Message;
 import ru.otus.listener.Listener;
-import ru.otus.processor.DateTime;
+import ru.otus.processor.TimeProvider;
 import ru.otus.processor.Processor;
 import ru.otus.processor.exceptions.TimeSecondsException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,8 +78,8 @@ class ComplexProcessorTest {
         //given
         var message = new Message.Builder().field8("field8").build();
 
-        var dateTime = mock(DateTime.class);
-        when(dateTime.getSeconds()).thenReturn(2);
+        var dateTime = mock(TimeProvider.class);
+        when(dateTime.get()).thenReturn(LocalDateTime.of(2020, 12, 10, 10, 10, 10));
 
         var processor = mock(Processor.class);
         when(processor.process(eq(message))).thenThrow(new TimeSecondsException("Test Exception"));
