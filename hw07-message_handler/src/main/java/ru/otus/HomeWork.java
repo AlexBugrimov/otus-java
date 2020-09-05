@@ -1,8 +1,9 @@
 package ru.otus;
 
 import ru.otus.handler.ComplexProcessor;
-import ru.otus.listener.Listener;
-import ru.otus.listener.ListenerHistory;
+import ru.otus.listener.Logbook;
+import ru.otus.listener.ListenerLogbook;
+import ru.otus.listener.Record;
 import ru.otus.processor.Processor;
 import ru.otus.processor.ProcessorSwapFields11And13;
 import ru.otus.processor.ProcessorWithException;
@@ -28,8 +29,8 @@ public class HomeWork {
         final ComplexProcessor complexProcessor = new ComplexProcessor(processors, (ex) -> {
             throw new TimeSecondsException(ex);
         });
-        Listener listenerHistory = new ListenerHistory();
-        complexProcessor.addListener(listenerHistory);
+        Logbook listenerLogbook = new ListenerLogbook();
+        complexProcessor.addListener(listenerLogbook);
 
         final Message originalMessage = new Message.Builder()
                 .field11("field11")
@@ -38,14 +39,15 @@ public class HomeWork {
                 .build();
         Message firstResult = complexProcessor.handle(originalMessage);
         System.out.println("Result:" + firstResult);
-
+        List<Record> records = listenerLogbook.getRecords();
         Message lastResult = complexProcessor.handle(firstResult);
         System.out.println("Result:" + lastResult);
+        records = listenerLogbook.getRecords();
 
         Message totalResult = complexProcessor.handle(lastResult);
         System.out.println("Result:" + totalResult);
-
-        complexProcessor.removeListener(listenerHistory);
+        records = listenerLogbook.getRecords();
+        complexProcessor.removeListener(listenerLogbook);
         /*
            по аналогии с Demo.class
            из элеменов "to do" создать new ComplexProcessor и обработать сообщение
