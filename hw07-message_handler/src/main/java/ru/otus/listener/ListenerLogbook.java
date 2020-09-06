@@ -20,7 +20,7 @@ public class ListenerLogbook implements Logbook {
 
     @Override
     public void addRecord(Message oldMassage, Message newMessage) {
-        records.add(new Record(oldMassage, newMessage));
+        records.add(new Record(oldMassage.clone(), newMessage.clone()));
     }
 
     @Override

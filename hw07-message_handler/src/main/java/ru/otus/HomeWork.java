@@ -9,6 +9,7 @@ import ru.otus.processor.ProcessorSwapFields11And13;
 import ru.otus.processor.ProcessorWithException;
 import ru.otus.processor.exceptions.TimeSecondsException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class HomeWork {
@@ -24,7 +25,7 @@ public class HomeWork {
     public static void main(String[] args) {
         List<Processor> processors = List.of(
                 new ProcessorSwapFields11And13(),
-                new ProcessorWithException());
+                new ProcessorWithException(LocalDateTime::now));
 
         final ComplexProcessor complexProcessor = new ComplexProcessor(processors, (ex) -> {
             throw new TimeSecondsException(ex);
