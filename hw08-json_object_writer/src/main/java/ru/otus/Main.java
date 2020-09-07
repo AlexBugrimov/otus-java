@@ -1,9 +1,10 @@
 package ru.otus;
 
 import com.google.gson.Gson;
+import ru.otus.bson.ClassAdapter;
 import ru.otus.entities.Avatar;
 import ru.otus.entities.GitProfile;
-import ru.otus.writer.Bson;
+import ru.otus.bson.Bson;
 
 import java.util.Collections;
 
