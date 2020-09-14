@@ -3,9 +3,12 @@ package ru.otus.bson;
 import ru.otus.bson.exceptions.BsonException;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MetaInfo implements FieldInfo {
+public class MetaInfo {
 
+    private final Map<Field, MetaInfo> dataFields = new HashMap<>();
     private final Attributes attributes;
     private final Object value;
 
@@ -18,12 +21,14 @@ public class MetaInfo implements FieldInfo {
         }
     }
 
-    @Override
+    public static MetaInfo from(Object object, Field field) {
+        return null;
+    }
+
     public Attributes getFiledAttributes() {
         return attributes;
     }
 
-    @Override
     public Object getFieldValue() {
         return value;
     }
