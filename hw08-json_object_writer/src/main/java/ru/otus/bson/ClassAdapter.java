@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class ClassAdapter implements Adapter {
 
     private static final String EMPTY_JSON = "{}";
-    private Map<Field, MetaInfo> fields = new HashMap<>();
+    private final Map<Field, MetaInfo> fields = new HashMap<>();
 
     @Override
     public String transform(Object object) {
