@@ -12,6 +12,7 @@ import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingLong;
@@ -33,10 +34,29 @@ public class GcObserver implements Observer {
     }
 
     @Override
-    public Map<String, Long> getResults() {
-        return notificationInfoList.stream().collect(
-                groupingBy(GarbageCollectionNotificationInfo::getGcName,
-                        summingLong(info -> info.getGcInfo().getDuration())));
+    public List<Result> getResults() {
+        return notificationInfoList.stream()
+                .collect(groupingBy(GarbageCollectionNotificationInfo::getGcName,
+                        summingLong(info -> info.getGcInfo().getDuration())))
+                .entrySet().stream()
+                .map(info -> new Result(info.getKey(), info.getValue()))
+                .collect(Collectors.toList());
+    }
+
+    public static class Result {
+
+        private final String name;
+        private final long millis;
+
+        public Result(String name, long millis) {
+            this.name = name;
+            this.millis = millis;
+        }
+
+        @Override
+        public String toString() {
+            return "Result: " + name + " - " + millis + "ms";
+        }
     }
 
     private void startMonitoring() {

@@ -15,7 +15,7 @@ public class Main {
         try {
             observer.observe(new OutOfMemory(10_000));
         } finally {
-            logger.info("Result: {}", observer.getResults());
+            logger.info("{}", observer.getResults());
         }
     }
 }

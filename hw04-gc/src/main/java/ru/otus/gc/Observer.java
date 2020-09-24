@@ -1,10 +1,10 @@
 package ru.otus.gc;
 
-import java.util.Map;
+import java.util.List;
 
 public interface Observer {
 
     Observer observe(Executor executor);
 
-    Map<String, Long> getResults();
+    List<GcObserver.Result> getResults();
 }
