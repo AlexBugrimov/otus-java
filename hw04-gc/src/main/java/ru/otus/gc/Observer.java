@@ -1,10 +1,10 @@
 package ru.otus.gc;
 
-import java.io.PrintStream;
+import java.util.Map;
 
 public interface Observer {
 
     Observer observe(Executor executor);
 
-    void printResults(PrintStream printStream);
+    Map<String, Long> getResults();
 }
