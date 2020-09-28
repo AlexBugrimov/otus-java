@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         final Observer observer = new GcObserver();
         try {
-            observer.observe(new OutOfMemory(10_000));
+            observer.observe(new OutOfMemory(100_000));
         } finally {
             logger.info("{}", observer.getResults());
         }
