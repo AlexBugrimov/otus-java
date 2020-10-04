@@ -1,5 +1,6 @@
 package ru.otus.bson.handlers;
 
+import ru.otus.bson.Handler;
 import ru.otus.bson.JsonNode;
 import ru.otus.bson.exceptions.BsonException;
 

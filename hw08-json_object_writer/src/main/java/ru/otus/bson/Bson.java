@@ -2,18 +2,22 @@ package ru.otus.bson;
 
 public class Bson {
 
-    private final static Convertor DEFAULT_CONVERTOR = new ClassConvertor();
-    private final Convertor convertor;
+    private static final Handler CLASS_HANDLER = new ClassHandler();
+    private final Mapper mapper;
 
     public Bson() {
-        this(DEFAULT_CONVERTOR);
+        this(CLASS_HANDLER);
     }
 
-    public Bson(Convertor convertor) {
-        this.convertor = convertor;
+    public Bson(Handler handler) {
+        this(new ObjectMapper(handler));
+    }
+
+    public Bson(Mapper mapper) {
+        this.mapper = mapper;
     }
 
     public String toJson(Object object) {
-        return convertor.convert(object);
+        return mapper.toJsonValue(object).toString();
     }
 }

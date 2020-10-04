@@ -1,8 +1,8 @@
-package ru.otus.bson.handlers;
+package ru.otus.bson;
 
 import ru.otus.bson.JsonNode;
 
 public interface Handler {
 
-    void write(JsonNode node);
+    Result process(Object object);
 }

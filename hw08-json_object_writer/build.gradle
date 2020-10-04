@@ -4,5 +4,6 @@ plugins {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'org.jetbrains:annotations:19.0.0'
+    implementation 'javax.json:javax.json-api'
+    implementation 'org.glassfish:javax.json'
 }
