@@ -25,6 +25,6 @@ public class JsonString implements javax.json.JsonString {
 
     @Override
     public String toString() {
-        return value;
+        return '"' + value + '"';
     }
 }
