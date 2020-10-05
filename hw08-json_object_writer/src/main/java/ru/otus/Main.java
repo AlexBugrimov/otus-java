@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import ru.otus.bson.Bson;
 import ru.otus.entities.Avatar;
 import ru.otus.entities.GitProfile;
+import ru.otus.entities.Repository;
 
 import java.util.Collections;
 
@@ -13,7 +14,7 @@ public class Main {
         GitProfile profile = new GitProfile(
                 new Avatar("http://avatars.com/git_profile.png"),
                 "Alex",
-                Collections.emptyList()
+                Collections.singletonList(new Repository().setName("New project"))
         );
 
         final Bson bson = new Bson();

@@ -6,46 +6,46 @@ public enum TypeField {
 
     NUMBER {
         @Override
-        public boolean isType(Object object) {
-            return isNumber.test(object);
+        public boolean isType(Class<?> clazz) {
+            return isNumber.test(clazz);
         }
     },
     BOOLEAN {
         @Override
-        public boolean isType(Object object) {
-            return isBoolean.test(object);
+        public boolean isType(Class<?> clazz) {
+            return isBoolean.test(clazz);
         }
     },
     CHAR {
         @Override
-        public boolean isType(Object object) {
-            return isChar.test(object);
+        public boolean isType(Class<?> clazz) {
+            return isChar.test(clazz);
         }
     },
     STRING {
         @Override
-        public boolean isType(Object object) {
-            return isString.test(object);
+        public boolean isType(Class<?> clazz) {
+            return isString.test(clazz);
         }
     },
     ARRAY {
         @Override
-        public boolean isType(Object object) {
-            return isArray.test(object);
+        public boolean isType(Class<?> clazz) {
+            return isArray.test(clazz);
         }
     },
     COLLECTION {
         @Override
-        public boolean isType(Object object) {
-            return isCollection.test(object);
+        public boolean isType(Class<?> clazz) {
+            return isCollection.test(clazz);
         }
     },
     OBJECT {
         @Override
-        public boolean isType(Object object) {
-            return isObject.test(object);
+        public boolean isType(Class<?> clazz) {
+            return isObject.test(clazz);
         }
     };
 
-    public abstract boolean isType(Object object);
+    public abstract boolean isType(Class<?> clazz);
 }

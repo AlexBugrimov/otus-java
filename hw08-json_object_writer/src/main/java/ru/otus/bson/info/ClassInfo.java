@@ -4,5 +4,7 @@ import javax.json.JsonValue;
 
 public interface ClassInfo {
 
+    void addFieldInfo(FieldInfo fieldInfo);
+
     JsonValue asJsonValue();
 }

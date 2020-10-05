@@ -4,6 +4,8 @@ import java.util.List;
 
 public class GitProfile {
 
+    private static final String VERSION = "1.0";
+
     private final Avatar avatar;
     private final String nickname;
     private int followers;
@@ -11,7 +13,7 @@ public class GitProfile {
     private short starts;
     private String bio;
     private final List<Repository> repositories;
-    private final int[] contributionsInLastYear = new int[0];
+    private final int[] contributionsInLastYear = new int[] {2001, 2003};
 
     public GitProfile(Avatar avatar, String nickname, List<Repository> repositories) {
         this.avatar = avatar;

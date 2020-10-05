@@ -10,10 +10,12 @@ public class ClassMetaInfo implements ClassInfo {
 
     @Override
     public JsonValue asJsonValue() {
+        fields.forEach(System.out::println);
         return null;
     }
 
-    public boolean addFieldInfo(FieldInfo fieldInfo) {
-        return fields.add(fieldInfo);
+    @Override
+    public void addFieldInfo(FieldInfo fieldInfo) {
+        fields.add(fieldInfo);
     }
 }
