@@ -1,9 +1,6 @@
 package ru.otus.bson;
 
-import javax.json.JsonValue;
+public interface Mapper<T> {
 
-public interface Mapper {
-
-    JsonValue toJsonValue(Object object);
-
+    T toValue(Object object);
 }

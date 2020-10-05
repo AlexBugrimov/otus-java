@@ -1,13 +1,10 @@
 package ru.otus.bson;
 
-public class ClassHandler implements Handler {
+public class ClassHandler implements Handler<ClassInfo> {
 
     @Override
-    public Result process(Object object) {
+    public ClassInfo handle(Object object) {
         return null;
     }
 
-    public static class ProcessingResult implements Result {
-
-    }
 }
