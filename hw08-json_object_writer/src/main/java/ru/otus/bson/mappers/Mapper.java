@@ -1,4 +1,4 @@
-package ru.otus.bson;
+package ru.otus.bson.mappers;
 
 public interface Mapper<T> {
 

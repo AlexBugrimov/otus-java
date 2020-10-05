@@ -1,4 +1,7 @@
-package ru.otus.bson;
+package ru.otus.bson.mappers;
+
+import ru.otus.bson.handlers.Handler;
+import ru.otus.bson.info.ClassInfo;
 
 import javax.json.JsonValue;
 

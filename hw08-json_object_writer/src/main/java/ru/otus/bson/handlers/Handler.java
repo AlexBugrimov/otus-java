@@ -1,4 +1,4 @@
-package ru.otus.bson;
+package ru.otus.bson.handlers;
 
 public interface Handler<T> {
 
