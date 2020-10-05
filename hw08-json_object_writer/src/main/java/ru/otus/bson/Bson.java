@@ -8,6 +8,8 @@ import ru.otus.bson.mappers.ObjectMapper;
 
 import javax.json.JsonValue;
 
+import static ru.otus.bson.utils.Predicates.isNull;
+
 public class Bson {
 
     private static final Handler<ClassInfo> CLASS_HANDLER = new ClassHandler();
@@ -26,6 +28,7 @@ public class Bson {
     }
 
     public String toJson(Object object) {
-        return mapper.toValue(object).toString();
+        final JsonValue jsonValue = mapper.toValue(object);
+        return isNull.test(jsonValue) ? "{}" : jsonValue.toString();
     }
 }
