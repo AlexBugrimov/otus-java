@@ -7,6 +7,7 @@ import javax.json.JsonValue;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static ru.otus.bson.utils.Predicates.isNull;
 
@@ -145,5 +146,12 @@ public class JsonObject implements javax.json.JsonObject {
     @Override
     public ValueType getValueType() {
         return ValueType.OBJECT;
+    }
+
+    @Override
+    public String toString() {
+        return values.entrySet().stream()
+                .map(valueEntry -> String.format("\"%s\":%s", valueEntry.getKey(), valueEntry.getValue()))
+                .collect(Collectors.joining(",", "{", "}"));
     }
 }

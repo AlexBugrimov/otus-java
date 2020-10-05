@@ -5,6 +5,7 @@ import javax.json.JsonObject;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class JsonArray implements javax.json.JsonArray {
 
@@ -197,5 +198,12 @@ public class JsonArray implements javax.json.JsonArray {
     @Override
     public ValueType getValueType() {
         return ValueType.ARRAY;
+    }
+
+    @Override
+    public String toString() {
+        return values.stream()
+                .map(JsonValue::toString)
+                .collect(Collectors.joining(",", "[", "]"));
     }
 }
