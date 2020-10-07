@@ -11,6 +11,8 @@ import static java.lang.reflect.Modifier.isTransient;
 
 public final class Predicates {
 
+    private Predicates() {}
+
     public static Predicate<Object> isNull = Objects::isNull;
 
     public static Predicate<Field> isSerializableField = filed -> {
