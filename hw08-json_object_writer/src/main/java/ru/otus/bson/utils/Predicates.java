@@ -38,6 +38,8 @@ public final class Predicates {
 
     public static Predicate<Class<?>> isCollection = Collection.class::isAssignableFrom;
 
+    public static Predicate<Class<?>> isEnum = Class::isEnum;
+
     public static Predicate<Class<?>> isObject = clazz ->
                     !isNumber.test(clazz) &&
                     !isBoolean.test(clazz) &&

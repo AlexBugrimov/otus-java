@@ -1,4 +1,4 @@
-package ru.otus.bson.types;
+package ru.otus.bson.jsonTypes;
 
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonValue;

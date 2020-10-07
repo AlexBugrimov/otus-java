@@ -1,4 +1,4 @@
-package ru.otus.bson.types;
+package ru.otus.bson.jsonTypes;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
