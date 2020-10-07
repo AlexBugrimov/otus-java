@@ -1,4 +1,4 @@
-package ru.otus.bson.jsonTypes;
+package ru.otus.bson.types;
 
 public class JsonString implements javax.json.JsonString {
 

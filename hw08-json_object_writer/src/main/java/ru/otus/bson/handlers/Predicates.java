@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.lang.reflect.Modifier.isTransient;
 
-public final class Conditions {
+public final class Predicates {
 
     public static Predicate<Object> isNull = Objects::isNull;
 

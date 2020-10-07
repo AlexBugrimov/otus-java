@@ -4,7 +4,7 @@ import ru.otus.bson.handlers.ObjectHandler;
 
 import javax.json.JsonValue;
 
-import static ru.otus.bson.handlers.Conditions.isNull;
+import static ru.otus.bson.handlers.Predicates.isNull;
 
 public class Bson {
 

@@ -1,10 +1,10 @@
 package ru.otus.bson.handlers;
 
 import ru.otus.bson.exceptions.BsonException;
-import ru.otus.bson.jsonTypes.JsonArrayBuilder;
-import ru.otus.bson.jsonTypes.JsonNumber;
-import ru.otus.bson.jsonTypes.JsonObjectBuilder;
-import ru.otus.bson.jsonTypes.JsonString;
+import ru.otus.bson.types.JsonArrayBuilder;
+import ru.otus.bson.types.JsonNumber;
+import ru.otus.bson.types.JsonObjectBuilder;
+import ru.otus.bson.types.JsonString;
 
 import javax.json.JsonValue;
 
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static ru.otus.bson.handlers.Conditions.*;
+import static ru.otus.bson.handlers.Predicates.*;
 
 public enum ElementType {
 
@@ -124,7 +124,7 @@ public enum ElementType {
         public JsonValue toJson(Object object) {
             var builder = new JsonObjectBuilder();
             for (Field field : getFields(object)) {
-                if (!Conditions.isSerializableField.test(field)) continue;
+                if (!Predicates.isSerializableField.test(field)) continue;
                 final Object value = getValueField(object, field);
                 if (value == null) continue;
                 builder.add(field.getName(), ObjectHandler.handle(value));

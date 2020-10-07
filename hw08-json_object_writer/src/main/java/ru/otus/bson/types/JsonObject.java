@@ -1,4 +1,4 @@
-package ru.otus.bson.jsonTypes;
+package ru.otus.bson.types;
 
 import javax.json.JsonArray;
 import javax.json.JsonNumber;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static ru.otus.bson.handlers.Conditions.isNull;
+import static ru.otus.bson.handlers.Predicates.isNull;
 
 public class JsonObject implements javax.json.JsonObject {
 
