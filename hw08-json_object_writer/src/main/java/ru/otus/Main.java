@@ -16,7 +16,6 @@ public class Main {
                 "Alex",
                 Collections.singletonList(new Repository().setName("New project"))
         );
-
         final Bson bson = new Bson();
         final String json = bson.toJson(profile);
 
