@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static ru.otus.bson.utils.Predicates.isNull;
+import static ru.otus.bson.handlers.Conditions.isNull;
 
 public class JsonObject implements javax.json.JsonObject {
 

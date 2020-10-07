@@ -1,4 +1,4 @@
-package ru.otus.bson.utils;
+package ru.otus.bson.handlers;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.lang.reflect.Modifier.isTransient;
 
-public final class Predicates {
+public final class Conditions {
 
     public static Predicate<Object> isNull = Objects::isNull;
 
