@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static ru.otus.bson.handlers.Predicates.isNull;
-
 public class JsonObject implements javax.json.JsonObject {
 
     private final Map<String, JsonValue> values;
@@ -61,8 +59,8 @@ public class JsonObject implements javax.json.JsonObject {
 
     @Override
     public boolean getBoolean(String name) {
-        JsonValue value = this.get(name);
-        if (isNull.test(value)) {
+        final JsonValue value = this.get(name);
+        if (value == null) {
             throw new NullPointerException();
         } else if (value == JsonValue.TRUE) {
             return true;
@@ -80,7 +78,7 @@ public class JsonObject implements javax.json.JsonObject {
 
     @Override
     public boolean isNull(String name) {
-        return isNull.test(values.get(name));
+        return values.get(name) == null;
     }
 
     @Override
