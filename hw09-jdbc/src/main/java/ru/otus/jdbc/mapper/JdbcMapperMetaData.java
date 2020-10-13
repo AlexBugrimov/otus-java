@@ -1,6 +1,8 @@
 package ru.otus.jdbc.mapper;
 
 import ru.otus.core.model.User;
+import ru.otus.jdbc.DbExecutor;
+import ru.otus.jdbc.DbExecutorImpl;
 
 public class JdbcMapperMetaData implements JdbcMapper<User> {
 
@@ -8,6 +10,10 @@ public class JdbcMapperMetaData implements JdbcMapper<User> {
 
     public JdbcMapperMetaData(EntitySQLMetaData entitySQLMetaData) {
         this.entitySQLMetaData = entitySQLMetaData;
+    }
+
+    public JdbcMapperMetaData(DbExecutor<User> dbExecutor, EntitySQLMetaData entitySQLMetaData) {
+
     }
 
     @Override

@@ -9,6 +9,7 @@ import java.util.List;
  * @param <T>
  */
 public interface EntityClassMetaData<T> {
+
     String getName();
 
     Constructor<T> getConstructor();

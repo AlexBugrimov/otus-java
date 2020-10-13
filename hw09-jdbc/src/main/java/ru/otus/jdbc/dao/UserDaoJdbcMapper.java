@@ -12,9 +12,13 @@ import java.util.Optional;
 public class UserDaoJdbcMapper implements UserDao {
 
     private final SessionManagerJdbc sessionManagerJdbc;
+    private final DbExecutorImpl<User> dbExecutor;
+    private final JdbcMapper<User> jdbcMapperUser;
 
     public UserDaoJdbcMapper(SessionManagerJdbc sessionManager, DbExecutorImpl<User> dbExecutor, JdbcMapper<User> jdbcMapperUser) {
         this.sessionManagerJdbc = sessionManager;
+        this.dbExecutor = dbExecutor;
+        this.jdbcMapperUser = jdbcMapperUser;
     }
 
     @Override
@@ -24,7 +28,8 @@ public class UserDaoJdbcMapper implements UserDao {
 
     @Override
     public long insertUser(User user) {
-        return 0;
+        jdbcMapperUser.insert(user);
+        return dbExecutor.executeInsert(getSessionManager().getCurrentSession()., jdbcMapperUser.);
     }
 
     @Override

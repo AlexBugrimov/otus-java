@@ -26,9 +26,10 @@ public class HomeWork {
 
 // Работа с пользователем
         DbExecutorImpl<User> dbExecutor = new DbExecutorImpl<>();
-        var entityClassMetaData = EntityClassMetaDataHandler.of(User.class);
-        var entitySQLMetaData = EntitySQLMetaDataHandler.of(entityClassMetaData);
-        UserDao userDao = new UserDaoJdbcMapper(sessionManager, dbExecutor, new JdbcMapperMetaData(entitySQLMetaData));
+        var classMetaData = EntityClassMetaDataHandler.of(User.class);
+        var entitySQLMetaData = EntitySQLMetaDataHandler.of(classMetaData);
+        final JdbcMapperMetaData jdbcMapperUser = new JdbcMapperMetaData(dbExecutor, entitySQLMetaData);
+        UserDao userDao = new UserDaoJdbcMapper(sessionManager, dbExecutor, jdbcMapperUser);
 
 // Код дальше должен остаться, т.е. userDao должен использоваться
         var dbServiceUser = new DbServiceUserImpl(userDao);
