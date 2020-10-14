@@ -6,6 +6,7 @@ import ru.otus.jdbc.Id;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -57,5 +58,21 @@ public class EntityClassMetaDataHandler<T> implements EntityClassMetaData<T> {
         return getAllFields().stream()
                 .filter(FIELD_ID_PREDICATE.negate())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Object> getValues(T object) {
+        final List<Object> params = new LinkedList<>();
+        for (Field field : getAllFields()) {
+            try {
+                field.setAccessible(true);
+                final Object param = field.get(object);
+                field.setAccessible(false);
+                params.add(param);
+            } catch (IllegalAccessException e) {
+                throw new ClassMetaDataException(e);
+            }
+        }
+        return params;
     }
 }
