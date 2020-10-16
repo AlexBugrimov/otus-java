@@ -23,12 +23,12 @@ public class EntityClassMetaDataHandler<T> implements EntityClassMetaData<T> {
     }
 
     public static <T> EntityClassMetaData<T> of(Class<T> clazz) {
-        return new EntityClassMetaDataHandler<>(clazz, clazz.getFields());
+        return new EntityClassMetaDataHandler<>(clazz, clazz.getDeclaredFields());
     }
 
     @Override
     public String getName() {
-        return clazz.getName();
+        return clazz.getSimpleName().toLowerCase();
     }
 
     @Override
@@ -63,7 +63,7 @@ public class EntityClassMetaDataHandler<T> implements EntityClassMetaData<T> {
     @Override
     public List<Object> getValues(T object) {
         final List<Object> params = new LinkedList<>();
-        for (Field field : getAllFields()) {
+        for (Field field : getFieldsWithoutId()) {
             try {
                 field.setAccessible(true);
                 final Object param = field.get(object);

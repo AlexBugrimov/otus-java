@@ -17,7 +17,7 @@ public class UserDaoJdbcMapper implements UserDao {
 
     @Override
     public Optional<User> findById(long id) {
-        return Optional.of(jdbcMapper.findById(id, User.class));
+        return jdbcMapper.findById(id);
     }
 
     @Override

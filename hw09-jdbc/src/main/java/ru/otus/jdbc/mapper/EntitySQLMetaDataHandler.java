@@ -40,20 +40,17 @@ public final class EntitySQLMetaDataHandler implements EntitySQLMetaData {
 
     @Override
     public String getInsertSql() {
-        return String.format("""
-                    INSERT INTO %s (%s)
-                    VALUES (%s)
-                """, tableName, String.join(", ", fields), getFieldsByTemplate(fields, "?")
+        return String.format(
+                "INSERT INTO %s (%s) VALUES (%s)",
+                tableName, String.join(", ", fields), getFieldsByTemplate(fields, "?")
         );
     }
 
     @Override
     public String getUpdateSql() {
-        return String.format("""
-                UPDATE %s
-                SET %s
-                WHERE %s = ?
-                """, tableName, getFieldsByTemplate(fields, FIELD_MASK + " = ?"), fieldNameId
+        return String.format(
+                "UPDATE %s SET %s WHERE %s = ?",
+                tableName, getFieldsByTemplate(fields, FIELD_MASK + " = ?"), fieldNameId
         );
     }
 

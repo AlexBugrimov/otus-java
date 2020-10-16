@@ -1,6 +1,9 @@
 package ru.otus.jdbc.mapper;
 
+import ru.otus.core.model.User;
 import ru.otus.core.sessionmanager.SessionManager;
+
+import java.util.Optional;
 
 /**
  * Сохраняет объект в базу, читает объект из базы
@@ -14,7 +17,7 @@ public interface JdbcMapper<T> {
 
     void insertOrUpdate(T objectData);
 
-    T findById(Object id, Class<T> clazz);
+    Optional<T> findById(Object id);
 
     SessionManager getSessionManager();
 }

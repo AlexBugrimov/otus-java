@@ -4,21 +4,22 @@ import ru.otus.core.exceptions.JdbcException;
 import ru.otus.core.model.User;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
+import ru.otus.jdbc.handlers.ObjectHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.concurrent.Flow;
+import java.util.Optional;
 
-public class JdbcMapperMetaData implements JdbcMapper<User> {
+public class JdbcMapperMetaData<T> implements JdbcMapper<T> {
 
     private final SessionManager sessionManager;
-    private final DbExecutor<User> executor;
-    private final EntityClassMetaData<User> entityClassMetaData;
+    private final DbExecutor<T> executor;
+    private final EntityClassMetaData<T> entityClassMetaData;
     private final EntitySQLMetaData entitySQLMetaData;
 
     public JdbcMapperMetaData(SessionManager sessionManager,
-                              DbExecutor<User> executor,
-                              EntityClassMetaData<User>  entityClassMetaData) {
+                              DbExecutor<T> executor,
+                              EntityClassMetaData<T> entityClassMetaData) {
         this.sessionManager = sessionManager;
         this.executor = executor;
         this.entityClassMetaData = entityClassMetaData;
@@ -26,35 +27,53 @@ public class JdbcMapperMetaData implements JdbcMapper<User> {
     }
 
     @Override
-    public long insert(User user) {
-        final String insertSql = entitySQLMetaData.getInsertSql();
+    public long insert(T entity) {
+        final String sql = entitySQLMetaData.getInsertSql();
         try {
-            return executor.executeInsert(getConnection(), insertSql, entityClassMetaData.getValues(user));
+            return executor.executeInsert(getConnection(), sql, entityClassMetaData.getValues(entity));
         } catch (SQLException ex) {
-            throw new JdbcException("Error adding a record", ex);
+            throw new JdbcException("Error while executing SQL request: " + sql, ex);
         }
     }
 
     @Override
-    public void update(User user) {
-        final String updateSql = entitySQLMetaData.getUpdateSql();
+    public void update(T entity) {
+        final String sql = entitySQLMetaData.getUpdateSql();
         try {
-            executor.executeInsert(getConnection(), updateSql, entityClassMetaData.getValues(user));
+            executor.executeInsert(getConnection(), sql, entityClassMetaData.getValues(entity));
         } catch (SQLException ex) {
-            throw new JdbcException("Error updating a record", ex);
+            throw new JdbcException("Error while executing SQL request: " + sql, ex);
         }
     }
 
     @Override
-    public void insertOrUpdate(User objectData) {
-
+    public void insertOrUpdate(T entity) {
+        final T object = ObjectHandler.getEntity(entityClassMetaData, entity);
+        var optionalEntity = findById(object);
+        if (optionalEntity.isPresent()) {
+            insert(entity);
+        } else {
+            update(entity);
+        }
     }
 
     @Override
-    public User findById(Object id, Class<User> clazz) {
-        final String selectByIdSql = entitySQLMetaData.getSelectByIdSql();
-
-        return null;
+    public Optional<T> findById(Object id) {
+        final String sql = entitySQLMetaData.getSelectByIdSql();
+        try {
+            return executor.executeSelect(getConnection(), sql, id, resultSet -> {
+                try {
+                    if (resultSet.next()) {
+                        return ObjectHandler.build(resultSet, entityClassMetaData);
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                return null;
+            });
+        } catch (SQLException ex) {
+            throw new JdbcException("Error while executing SQL request: " + sql, ex);
+        }
     }
 
     @Override
