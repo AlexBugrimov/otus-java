@@ -8,7 +8,9 @@ import ru.otus.core.model.User;
 import ru.otus.core.service.DbServiceUserImpl;
 import ru.otus.h2.DataSourceH2;
 import ru.otus.jdbc.dao.UserDaoJdbcMapper;
-import ru.otus.jdbc.mapper.*;
+import ru.otus.jdbc.mapper.EntityClassMetaDataHandler;
+import ru.otus.jdbc.mapper.EntitySQLMetaDataHandler;
+import ru.otus.jdbc.mapper.JdbcMapperMetaData;
 import ru.otus.jdbc.sessionmanager.SessionManagerJdbc;
 
 import javax.sql.DataSource;
@@ -26,7 +28,13 @@ public class HomeWork {
 
 // Работа с пользователем
         DbExecutorImpl<User> executor = new DbExecutorImpl<>();
-        UserDao userDao = new UserDaoJdbcMapper(sessionManager, executor);
+        UserDao userDao = new UserDaoJdbcMapper(
+                new JdbcMapperMetaData(
+                        sessionManager,
+                        executor,
+                        EntityClassMetaDataHandler.of(User.class)
+                )
+        );
 
 // Код дальше должен остаться, т.е. userDao должен использоваться
         var dbServiceUser = new DbServiceUserImpl(userDao);
