@@ -1,4 +1,4 @@
-package ru.otus.jdbc;
+package ru.otus;
 
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
@@ -8,6 +8,7 @@ import ru.otus.core.model.Account;
 import ru.otus.core.model.User;
 import ru.otus.core.service.DbServiceImpl;
 import ru.otus.h2.DataSourceH2;
+import ru.otus.jdbc.DbExecutorImpl;
 import ru.otus.jdbc.dao.AccountDaoJdbcMapper;
 import ru.otus.jdbc.dao.UserDaoJdbcMapper;
 import ru.otus.jdbc.mapper.EntityClassMetaDataImpl;

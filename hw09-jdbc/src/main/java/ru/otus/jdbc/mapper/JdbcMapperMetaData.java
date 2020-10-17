@@ -3,7 +3,7 @@ package ru.otus.jdbc.mapper;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
 import ru.otus.jdbc.exceptions.JdbcSQLException;
-import ru.otus.jdbc.handlers.ObjectHandler;
+import ru.otus.jdbc.utils.ObjectHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
