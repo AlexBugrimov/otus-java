@@ -1,6 +1,6 @@
-package ru.otus.jdbc.handlers;
+package ru.otus.jdbc.utils;
 
-import ru.otus.core.exceptions.JdbcException;
+import ru.otus.jdbc.exceptions.JdbcException;
 import ru.otus.jdbc.mapper.EntityClassMetaData;
 
 import java.lang.reflect.Field;

@@ -1,14 +1,9 @@
 package ru.otus.jdbc.mapper;
 
-import ru.otus.core.model.User;
 import ru.otus.core.sessionmanager.SessionManager;
 
 import java.util.Optional;
 
-/**
- * Сохраняет объект в базу, читает объект из базы
- * @param <T>
- */
 public interface JdbcMapper<T> {
 
     long insert(T objectData);

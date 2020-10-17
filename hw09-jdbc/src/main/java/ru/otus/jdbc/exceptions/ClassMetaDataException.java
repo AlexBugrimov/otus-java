@@ -1,6 +1,6 @@
-package ru.otus.core.exceptions;
+package ru.otus.jdbc.exceptions;
 
-public class ClassMetaDataException extends RuntimeException {
+public class ClassMetaDataException extends JdbcException {
 
     public ClassMetaDataException(String message) {
         super(message);

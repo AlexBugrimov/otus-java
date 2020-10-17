@@ -1,7 +1,6 @@
 package ru.otus.jdbc.mapper;
 
-import ru.otus.core.exceptions.ClassMetaDataException;
-import ru.otus.jdbc.Id;
+import ru.otus.jdbc.exceptions.ClassMetaDataException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
+public final class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
     private static final Predicate<Field> FIELD_ID_PREDICATE = field -> field.isAnnotationPresent(Id.class);
     private final Class<T> clazz;
