@@ -11,19 +11,19 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class EntityClassMetaDataHandler<T> implements EntityClassMetaData<T> {
+public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
     private static final Predicate<Field> FIELD_ID_PREDICATE = field -> field.isAnnotationPresent(Id.class);
     private final Class<T> clazz;
     private final Field[] fields;
 
-    private EntityClassMetaDataHandler(Class<T> clazz, Field[] fields) {
+    private EntityClassMetaDataImpl(Class<T> clazz, Field[] fields) {
         this.clazz = clazz;
         this.fields = fields;
     }
 
     public static <T> EntityClassMetaData<T> of(Class<T> clazz) {
-        return new EntityClassMetaDataHandler<>(clazz, clazz.getDeclaredFields());
+        return new EntityClassMetaDataImpl<>(clazz, clazz.getDeclaredFields());
     }
 
     @Override

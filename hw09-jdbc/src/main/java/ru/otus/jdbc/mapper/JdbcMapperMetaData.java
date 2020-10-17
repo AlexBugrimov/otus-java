@@ -1,7 +1,6 @@
 package ru.otus.jdbc.mapper;
 
 import ru.otus.core.exceptions.JdbcException;
-import ru.otus.core.model.User;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
 import ru.otus.jdbc.handlers.ObjectHandler;
@@ -51,9 +50,9 @@ public class JdbcMapperMetaData<T> implements JdbcMapper<T> {
         final T object = ObjectHandler.getEntity(entityClassMetaData, entity);
         var optionalEntity = findById(object);
         if (optionalEntity.isPresent()) {
-            insert(entity);
-        } else {
             update(entity);
+        } else {
+            insert(entity);
         }
     }
 
