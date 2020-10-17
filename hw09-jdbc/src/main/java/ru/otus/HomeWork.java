@@ -24,7 +24,7 @@ public class HomeWork {
     private static final Logger logger = LoggerFactory.getLogger(HomeWork.class);
 
     public static void main(String[] args) {
-// Общая часть
+        // Общая часть
         var dataSource = new DataSourceH2();
         flywayMigrations(dataSource);
         var sessionManager = new SessionManagerJdbc(dataSource);
