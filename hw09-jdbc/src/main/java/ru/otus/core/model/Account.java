@@ -1,6 +1,6 @@
 package ru.otus.core.model;
 
-import ru.otus.jdbc.Id;
+import ru.otus.jdbc.mapper.Id;
 
 import java.math.BigDecimal;
 import java.util.StringJoiner;

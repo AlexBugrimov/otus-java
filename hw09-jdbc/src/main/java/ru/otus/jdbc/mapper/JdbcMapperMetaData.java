@@ -1,15 +1,15 @@
 package ru.otus.jdbc.mapper;
 
-import ru.otus.core.exceptions.JdbcException;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
+import ru.otus.jdbc.exceptions.JdbcSQLException;
 import ru.otus.jdbc.handlers.ObjectHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class JdbcMapperMetaData<T> implements JdbcMapper<T> {
+public final class JdbcMapperMetaData<T> implements JdbcMapper<T> {
 
     private final SessionManager sessionManager;
     private final DbExecutor<T> executor;
@@ -22,7 +22,7 @@ public class JdbcMapperMetaData<T> implements JdbcMapper<T> {
         this.sessionManager = sessionManager;
         this.executor = executor;
         this.entityClassMetaData = entityClassMetaData;
-        this.entitySQLMetaData = EntitySQLMetaDataHandler.of(entityClassMetaData);
+        this.entitySQLMetaData = EntitySQLMetaDataImpl.of(entityClassMetaData);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class JdbcMapperMetaData<T> implements JdbcMapper<T> {
         try {
             return executor.executeInsert(getConnection(), sql, entityClassMetaData.getValues(entity));
         } catch (SQLException ex) {
-            throw new JdbcException("Error while executing SQL request: " + sql, ex);
+            throw new JdbcSQLException(ex);
         }
     }
 
@@ -41,7 +41,7 @@ public class JdbcMapperMetaData<T> implements JdbcMapper<T> {
         try {
             executor.executeInsert(getConnection(), sql, entityClassMetaData.getValues(entity));
         } catch (SQLException ex) {
-            throw new JdbcException("Error while executing SQL request: " + sql, ex);
+            throw new JdbcSQLException(ex);
         }
     }
 
@@ -71,7 +71,7 @@ public class JdbcMapperMetaData<T> implements JdbcMapper<T> {
                 return null;
             });
         } catch (SQLException ex) {
-            throw new JdbcException("Error while executing SQL request: " + sql, ex);
+            throw new JdbcSQLException(ex);
         }
     }
 
