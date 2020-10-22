@@ -1,5 +1,7 @@
 package ru.otus.jdbc.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.otus.jdbc.exceptions.JdbcException;
 import ru.otus.jdbc.mapper.EntityClassMetaData;
 
@@ -10,16 +12,22 @@ import java.sql.SQLException;
 
 public final class ObjectHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(ObjectHandler.class);
+
     private ObjectHandler() {
     }
 
     public static <T> T build(ResultSet resultSet, EntityClassMetaData<T> entityClassMetaData) {
         T instance = getInstance(entityClassMetaData);
-
-        entityClassMetaData.getAllFields().forEach(field ->
-                fillInstance(instance, field, resultSet)
-        );
-
+        try {
+            if (resultSet.next()) {
+                entityClassMetaData.getAllFields().forEach(field ->
+                        fillInstance(instance, field, resultSet)
+                );
+            }
+        } catch (SQLException ex) {
+            logger.error("Error getting result set from database", ex);
+        }
         return instance;
     }
 

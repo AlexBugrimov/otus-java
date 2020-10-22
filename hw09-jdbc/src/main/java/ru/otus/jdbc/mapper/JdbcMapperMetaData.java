@@ -1,9 +1,8 @@
 package ru.otus.jdbc.mapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
+import ru.otus.jdbc.exceptions.JdbcException;
 import ru.otus.jdbc.utils.ObjectHandler;
 
 import java.sql.Connection;
@@ -12,9 +11,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.function.Function;
 
-public final class JdbcMapperMetaData<T> implements JdbcMapper<T> {
+import static ru.otus.jdbc.utils.ObjectHandler.build;
 
-    private static final Logger logger = LoggerFactory.getLogger(JdbcMapperMetaData.class);
+public final class JdbcMapperMetaData<T> implements JdbcMapper<T> {
 
     private final SessionManager sessionManager;
     private final DbExecutor<T> executor;
@@ -36,8 +35,7 @@ public final class JdbcMapperMetaData<T> implements JdbcMapper<T> {
         try {
             return executor.executeInsert(getConnection(), sql, entityClassMetaData.getValues(entity));
         } catch (SQLException ex) {
-            logger.error("Error adding entity: {}", entity, ex);
-            return -1;
+            throw new JdbcException("Error adding entity", ex);
         }
     }
 
@@ -47,7 +45,7 @@ public final class JdbcMapperMetaData<T> implements JdbcMapper<T> {
         try {
             executor.executeInsert(getConnection(), sql, entityClassMetaData.getValues(entity));
         } catch (SQLException ex) {
-            logger.error("Error updating entity: {}", entity, ex);
+            throw new JdbcException("Error updating entity", ex);
         }
     }
 
@@ -65,21 +63,11 @@ public final class JdbcMapperMetaData<T> implements JdbcMapper<T> {
     @Override
     public Optional<T> findById(Object id) {
         final String sql = entitySQLMetaData.getSelectByIdSql();
-        final Function<ResultSet, T> getEntity = resultSet -> {
-            try {
-                if (resultSet.next()) {
-                    return ObjectHandler.build(resultSet, entityClassMetaData);
-                }
-            } catch (SQLException ex) {
-                logger.error("Error getting an item in the database", ex);
-            }
-            return null;
-        };
         try {
-            return executor.executeSelect(getConnection(), sql, id, getEntity);
+            final Function<ResultSet, T> rsHandler = resultSet -> build(resultSet, entityClassMetaData);
+            return executor.executeSelect(getConnection(), sql, id, rsHandler);
         } catch (SQLException ex) {
-            logger.error("Error finding element by ID: {}", id, ex);
-            return Optional.empty();
+            throw new JdbcException(String.format("Error finding element by ID: %s", id), ex);
         }
     }
 
