@@ -6,7 +6,7 @@ import ru.otus.core.dao.Dao;
 
 import java.util.Optional;
 
-public class DbServiceImpl<T> implements DBService<T> {
+public class DbServiceImpl<T> implements DbService<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(DbServiceImpl.class);
 

@@ -2,7 +2,7 @@ package ru.otus.core.service;
 
 import java.util.Optional;
 
-public interface DBService<T> {
+public interface DbService<T> {
 
     long save(T t);
 
