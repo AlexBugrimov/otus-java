@@ -8,7 +8,7 @@ public interface Cache<K, V> {
 
     V get(K key);
 
-    void addListener(HwListener<K, V> listener);
+    void addListener(Listener<K, V> listener);
 
-    void removeListener(HwListener<K, V> listener);
+    void removeListener(Listener<K, V> listener);
 }

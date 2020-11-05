@@ -1,36 +1,43 @@
 package ru.otus.cachehw;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
-import java.util.*;
+import ru.otus.cachehw.storage.Operation.Result;
+import ru.otus.cachehw.notifier.Notifier;
+import ru.otus.cachehw.notifier.NotifierForEvents;
+import ru.otus.cachehw.storage.DataStorage;
+import ru.otus.cachehw.storage.Storage;
+import ru.otus.core.model.BaseEntity;
 
-public class DbCache<K, V> implements Cache<K, V> {
+public class DbCache<I, V extends BaseEntity> implements Cache<I, V> {
 
-    private final Map<K, V> dataStorage = new WeakHashMap<>();
-    private final List<Reference<HwListener<K, V>>> listenerStorage = new ArrayList<>();
+    private final Storage<I, V> dataStorage = new DataStorage<>();
+    private final Notifier<I, V> notifier = new NotifierForEvents<>();
 
     @Override
-    public void put(K key, V value) {
-        dataStorage.put(key, value);
+    public void put(I key, V value) {
+        final Result<V> result = dataStorage.add(key, value);
+        notifier.notifyAllOf(result);
     }
 
     @Override
-    public void remove(K key) {
-        dataStorage.remove(key);
+    public void remove(I id) {
+        final Result<V> result = dataStorage.remove(id);
+        notifier.notifyAllOf(result);
     }
 
     @Override
-    public V get(K key) {
-        return dataStorage.get(key);
+    public V get(I key) {
+        final Result<V> result = dataStorage.get(key);
+        notifier.notifyAllOf(result);
+        return result.getContent();
     }
 
     @Override
-    public void addListener(HwListener<K, V> listener) {
-        listenerStorage.add(new WeakReference<>(listener));
+    public void addListener(Listener<I, V> listener) {
+        notifier.addListener(listener);
     }
 
     @Override
-    public void removeListener(HwListener<K, V> listener) {
-        listenerStorage.remove(new WeakReference<>(listener));
+    public void removeListener(Listener<I, V> listener) {
+        notifier.removeListener(listener);
     }
 }
