@@ -9,5 +9,5 @@ include 'hw05-auto_log'
 include 'hw07-message_handler'
 include 'hw08-json_object_writer'
 include 'hw09-jdbc'
+include 'hw10-hibernate'
 include 'hw11-cache'
-
