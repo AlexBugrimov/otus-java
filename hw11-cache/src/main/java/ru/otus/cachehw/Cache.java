@@ -1,6 +1,6 @@
 package ru.otus.cachehw;
 
-public interface HwCache<K, V> {
+public interface Cache<K, V> {
 
     void put(K key, V value);
 
