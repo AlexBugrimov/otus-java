@@ -10,7 +10,7 @@ public interface Cache<K, V> {
 
     V get(K key);
 
-    void addListener(Listener<K, V> listener);
+    void addListeners(Listener<K, V>... listener);
 
-    void removeListener(Listener<K, V> listener);
+    void removeListeners(Listener<K, V>... listener);
 }

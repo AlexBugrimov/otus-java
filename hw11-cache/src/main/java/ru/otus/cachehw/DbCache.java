@@ -33,12 +33,16 @@ public class DbCache<K, V extends BaseEntity> implements Cache<K, V> {
     }
 
     @Override
-    public void addListener(Listener<K, V> listener) {
-        notifier.addListener(listener);
+    public void addListeners(Listener<K, V>... listeners) {
+        for (Listener<K, V> listener : listeners) {
+            notifier.addListener(listener);
+        }
     }
 
     @Override
-    public void removeListener(Listener<K, V> listener) {
-        notifier.removeListener(listener);
+    public void removeListeners(Listener<K, V>... listeners) {
+        for (Listener<K, V> listener : listeners) {
+            notifier.removeListener(listener);
+        }
     }
 }

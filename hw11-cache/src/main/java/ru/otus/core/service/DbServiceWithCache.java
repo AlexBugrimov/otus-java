@@ -1,7 +1,6 @@
 package ru.otus.core.service;
 
 import ru.otus.cachehw.Cache;
-import ru.otus.cachehw.DbCache;
 import ru.otus.core.dao.Dao;
 import ru.otus.core.model.BaseEntity;
 
