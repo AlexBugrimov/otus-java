@@ -6,38 +6,39 @@ import ru.otus.cachehw.notifier.NotifierForEvents;
 import ru.otus.cachehw.storage.DataStorage;
 import ru.otus.cachehw.storage.Storage;
 import ru.otus.core.model.BaseEntity;
+import ru.otus.listeners.Listener;
 
-public class DbCache<I, V extends BaseEntity> implements Cache<I, V> {
+public class DbCache<K, V extends BaseEntity> implements Cache<K, V> {
 
-    private final Storage<I, V> dataStorage = new DataStorage<>();
-    private final Notifier<I, V> notifier = new NotifierForEvents<>();
+    private final Storage<K, V> dataStorage = new DataStorage<>();
+    private final Notifier<K, V> notifier = new NotifierForEvents<>();
 
     @Override
-    public void put(I key, V value) {
+    public void put(K key, V value) {
         final Result<V> result = dataStorage.add(key, value);
         notifier.notifyAllOf(result);
     }
 
     @Override
-    public void remove(I id) {
-        final Result<V> result = dataStorage.remove(id);
+    public void remove(K key) {
+        final Result<V> result = dataStorage.remove(key);
         notifier.notifyAllOf(result);
     }
 
     @Override
-    public V get(I key) {
+    public V get(K key) {
         final Result<V> result = dataStorage.get(key);
         notifier.notifyAllOf(result);
-        return result.getContent();
+        return result.getValue();
     }
 
     @Override
-    public void addListener(Listener<I, V> listener) {
+    public void addListener(Listener<K, V> listener) {
         notifier.addListener(listener);
     }
 
     @Override
-    public void removeListener(Listener<I, V> listener) {
+    public void removeListener(Listener<K, V> listener) {
         notifier.removeListener(listener);
     }
 }

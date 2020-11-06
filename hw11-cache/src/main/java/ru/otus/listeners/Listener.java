@@ -1,4 +1,4 @@
-package ru.otus.cachehw;
+package ru.otus.listeners;
 
 public interface Listener<K, V> {
 

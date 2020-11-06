@@ -1,8 +1,11 @@
 package ru.otus.cachehw.storage;
 
-public interface Storage<I, V> {
+import ru.otus.cachehw.storage.Operation.Result;
+import ru.otus.core.model.BaseEntity;
 
-    Operation.Result<V> get(I id);
-    Operation.Result<V> add(I id, V value);
-    Operation.Result<V> remove(I id);
+public interface Storage<K, V extends BaseEntity> {
+
+    Result<V> get(K key);
+    Result<V> add(K key, V value);
+    Result<V> remove(K key);
 }

@@ -1,32 +1,33 @@
 package ru.otus.cachehw.storage;
 
 import ru.otus.cachehw.storage.Operation.*;
+import ru.otus.core.model.BaseEntity;
 
 import java.util.Map;
 import java.util.WeakHashMap;
 
 import static ru.otus.cachehw.storage.Operation.*;
 
-public class DataStorage<I, V> implements Storage<I, V> {
+public final class DataStorage<K, V extends BaseEntity> implements Storage<K, V> {
 
-    private final Map<I, V> entities;
+    private final Map<K, V> entities;
 
     public DataStorage() {
         this.entities = new WeakHashMap<>();
     }
 
     @Override
-    public Result<V> get(I id) {
-        return GET.execute(entities.get(id));
+    public Result<V> get(K key) {
+        return RECEIVING.execute(entities.get(key));
     }
 
     @Override
-    public Result<V> add(I id, V value) {
-        return ADD.execute(entities.put(id, value));
+    public Result<V> add(K key, V value) {
+        return ADDITION.execute(entities.put(key, value));
     }
 
     @Override
-    public Result<V> remove(I id) {
-        return REMOVE.execute(entities.remove(id));
+    public Result<V> remove(K key) {
+        return REMOVAL.execute(entities.remove(key));
     }
 }

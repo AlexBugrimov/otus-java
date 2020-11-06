@@ -9,20 +9,20 @@ import ru.otus.core.model.BaseEntity;
 @AllArgsConstructor
 public enum Operation {
 
-    ADD("Saved entity"),
-    REMOVE("Remove entity"),
-    GET("Getting entity");
+    ADDITION("Save recording"),
+    REMOVAL("Record deletion"),
+    RECEIVING("Get record");
 
-    private final String message;
+    private final String actionDescription;
 
-    public <V extends BaseEntity> Result<V> execute(V content) {
-        return new Result<>(this.getMessage(), content);
+    public <V extends BaseEntity> Result<V> execute(V value) {
+        return new Result<>(this.getActionDescription(), value);
     }
 
     @Data
-    public static class Result<T extends BaseEntity> {
+    public static class Result<V extends BaseEntity> {
 
-        private final String message;
-        private final T content;
+        private final String action;
+        private final V value;
     }
 }
