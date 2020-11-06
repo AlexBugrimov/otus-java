@@ -1,15 +1,12 @@
 package ru.otus.core.model;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "phones")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString(includeFieldNames = false)
 @EqualsAndHashCode(callSuper = true)
 public class PhoneDataSet extends BaseEntity {
 
@@ -20,4 +17,25 @@ public class PhoneDataSet extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public PhoneDataSet() {
+    }
+
+    public PhoneDataSet(String number, User user) {
+        this.number = number;
+        this.user = user;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public PhoneDataSet setNumber(String number) {
+        this.number = number;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ").add("'" + number + "'").toString();
+    }
 }

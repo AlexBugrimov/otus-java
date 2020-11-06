@@ -18,15 +18,15 @@ public final class NotifierForEvents<K, V extends BaseEntity> implements Notifie
     }
 
     @Override
-    public void notifyAllOf(Result<V> result) {
+    public void notifyAllOf(Result<K, V> result) {
         listeners.forEach(listener -> notifyListenerOfResult(listener, result));
     }
 
-    private void notifyListenerOfResult(Reference<Listener<K, V>> listener, Result<V> result) {
+    private void notifyListenerOfResult(Reference<Listener<K, V>> listener, Result<K, V> result) {
         final Listener<K, V> notified = listener.get();
         if (notified != null) {
             final V value = result.getValue();
-            final K key = (K) value.getId();
+            final K key = result.getKey();
             notified.notify(key, value, result.getAction());
         }
     }

@@ -17,17 +17,17 @@ public final class DataStorage<K, V extends BaseEntity> implements Storage<K, V>
     }
 
     @Override
-    public Result<V> get(K key) {
-        return RECEIVING.execute(entities.get(key));
+    public Result<K, V> get(K key) {
+        return RECEIVING.execute(key, entities.get(key));
     }
 
     @Override
-    public Result<V> add(K key, V value) {
-        return ADDITION.execute(entities.put(key, value));
+    public Result<K, V> add(K key, V value) {
+        return ADDITION.execute(key, entities.put(key, value));
     }
 
     @Override
-    public Result<V> remove(K key) {
-        return REMOVAL.execute(entities.remove(key));
+    public Result<K, V> remove(K key) {
+        return REMOVAL.execute(key, entities.remove(key));
     }
 }

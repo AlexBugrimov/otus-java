@@ -4,11 +4,11 @@ import ru.otus.core.sessionmanager.SessionManager;
 
 import java.util.Optional;
 
-public interface Dao<T> {
+public interface Dao<T, K> {
 
-    Optional<T> findById(long id);
+    Optional<T> findById(K id);
 
-    long insert(T t);
+    K insert(T t);
 
     void update(T t);
 

@@ -7,23 +7,29 @@ import ru.otus.core.model.BaseEntity;
 
 import java.util.Optional;
 
-public class DbServiceWithCache<T extends BaseEntity, K extends Number> extends DbServiceImpl<T> {
+public class DbServiceWithCache<V extends BaseEntity, K> implements DbService<V, K> {
 
-    private final Cache<K, T> cache;
+    private final Cache<K, V> cache;
+    private final DbService<V, K> dbService;
 
-    public DbServiceWithCache(Dao<T> dao) {
-        super(dao);
-        this.cache = new DbCache<>();
+    public DbServiceWithCache(Dao<V, K> dao, Cache<K, V> cache) {
+        this.cache = cache;
+        this.dbService = new DbServiceImpl<>(dao);
     }
 
     @Override
-    public long save(T t) {
-        cache.put((K) t.getId(), t);
-        return super.save(t);
+    public K save(V value) {
+        final K savedKey = dbService.save(value);
+        cache.put(savedKey, value);
+        return savedKey;
     }
 
     @Override
-    public Optional<T> getById(long id) {
-        return super.getById(id);
+    public Optional<V> getById(K id) {
+        final V value = cache.get(id);
+        if (value == null) {
+            return dbService.getById(id);
+        }
+        return Optional.of(value);
     }
 }

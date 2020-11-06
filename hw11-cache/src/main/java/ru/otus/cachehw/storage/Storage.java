@@ -5,7 +5,7 @@ import ru.otus.core.model.BaseEntity;
 
 public interface Storage<K, V extends BaseEntity> {
 
-    Result<V> get(K key);
-    Result<V> add(K key, V value);
-    Result<V> remove(K key);
+    Result<K, V> get(K key);
+    Result<K, V> add(K key, V value);
+    Result<K, V> remove(K key);
 }

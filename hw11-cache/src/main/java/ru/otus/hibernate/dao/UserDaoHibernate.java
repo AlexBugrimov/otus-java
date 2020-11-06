@@ -12,7 +12,7 @@ import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
 
 import java.util.Optional;
 
-public class UserDaoHibernate implements Dao<User> {
+public class UserDaoHibernate implements Dao<User, Long> {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDaoHibernate.class);
 
@@ -23,7 +23,7 @@ public class UserDaoHibernate implements Dao<User> {
     }
 
     @Override
-    public Optional<User> findById(long id) {
+    public Optional<User> findById(Long id) {
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
             return Optional.ofNullable(currentSession.getHibernateSession().find(User.class, id));
@@ -34,7 +34,7 @@ public class UserDaoHibernate implements Dao<User> {
     }
 
     @Override
-    public long insert(User user) {
+    public Long insert(User user) {
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
             Session hibernateSession = currentSession.getHibernateSession();

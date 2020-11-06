@@ -15,19 +15,19 @@ public class DbCache<K, V extends BaseEntity> implements Cache<K, V> {
 
     @Override
     public void put(K key, V value) {
-        final Result<V> result = dataStorage.add(key, value);
+        final Result<K, V> result = dataStorage.add(key, value);
         notifier.notifyAllOf(result);
     }
 
     @Override
     public void remove(K key) {
-        final Result<V> result = dataStorage.remove(key);
+        final Result<K, V> result = dataStorage.remove(key);
         notifier.notifyAllOf(result);
     }
 
     @Override
     public V get(K key) {
-        final Result<V> result = dataStorage.get(key);
+        final Result<K, V> result = dataStorage.get(key);
         notifier.notifyAllOf(result);
         return result.getValue();
     }

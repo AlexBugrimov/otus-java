@@ -2,9 +2,9 @@ package ru.otus.core.service;
 
 import java.util.Optional;
 
-public interface DbService<T> {
+public interface DbService<T, K> {
 
-    long save(T t);
+    K save(T t);
 
-    Optional<T> getById(long id);
+    Optional<T> getById(K id);
 }

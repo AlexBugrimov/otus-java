@@ -6,7 +6,7 @@ import ru.otus.core.model.BaseEntity;
 
 public interface Notifier<K, V extends BaseEntity> {
 
-    void notifyAllOf(Result<V> result);
+    void notifyAllOf(Result<K, V> result);
     void addListener(Listener<K, V> listener);
     void removeListener(Listener<K, V> listener);
 }

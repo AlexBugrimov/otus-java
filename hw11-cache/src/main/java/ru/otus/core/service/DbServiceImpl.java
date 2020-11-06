@@ -6,18 +6,18 @@ import ru.otus.core.dao.Dao;
 
 import java.util.Optional;
 
-public class DbServiceImpl<T> implements DbService<T> {
+public class DbServiceImpl<T, K> implements DbService<T, K> {
 
     private static final Logger logger = LoggerFactory.getLogger(DbServiceImpl.class);
 
-    private final Dao<T> dao;
+    private final Dao<T, K> dao;
 
-    public DbServiceImpl(Dao<T> dao) {
+    public DbServiceImpl(Dao<T, K> dao) {
         this.dao = dao;
     }
 
     @Override
-    public long save(T t) {
+    public K save(T t) {
         try (var sessionManager = dao.getSessionManager()) {
             sessionManager.beginSession();
             try {
@@ -34,7 +34,7 @@ public class DbServiceImpl<T> implements DbService<T> {
     }
 
     @Override
-    public Optional<T> getById(long id) {
+    public Optional<T> getById(K id) {
         try (var sessionManager = dao.getSessionManager()) {
             sessionManager.beginSession();
             try {
