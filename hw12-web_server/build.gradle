@@ -8,6 +8,8 @@ targetCompatibility = JavaVersion.VERSION_14
 dependencies {
     implementation("ch.qos.logback:logback-classic")
     implementation("com.google.code.gson:gson:${Versions.gson}")
+    implementation("com.h2database:h2")
+    implementation("org.hibernate:hibernate-core")
 
     implementation("org.eclipse.jetty:jetty-server:${Versions.jetty}")
     implementation("org.eclipse.jetty:jetty-webapp:${Versions.jetty}")
