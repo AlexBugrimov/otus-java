@@ -2,18 +2,20 @@ package ru.otus.services;
 
 import ru.otus.core.dao.Dao;
 import ru.otus.core.model.User;
+import ru.otus.core.service.DbService;
+import ru.otus.core.service.DbServiceImpl;
 
 public class UserAuthServiceImpl implements UserAuthService {
 
-    private final Dao<User> userDao;
+    private final DbService<User> dbService;
 
     public UserAuthServiceImpl(Dao<User> userDao) {
-        this.userDao = userDao;
+        this.dbService = new DbServiceImpl<>(userDao);
     }
 
     @Override
     public boolean authenticate(String login, String password) {
-        return userDao.findByLogin(login)
+        return dbService.findByLogin(login)
                 .map(user -> user.getPassword().equals(password))
                 .orElse(false);
     }

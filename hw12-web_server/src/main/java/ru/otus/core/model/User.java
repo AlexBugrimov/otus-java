@@ -20,16 +20,17 @@ public class User extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private AddressDataSet addressDataSet;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PhoneDataSet> phones = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String name, AddressDataSet addressDataSet, List<PhoneDataSet> phones) {
+    public User(String name, AddressDataSet addressDataSet, List<PhoneDataSet> phones, String password) {
         this.name = name;
         this.addressDataSet = addressDataSet;
         this.phones = phones;
+        this.password = password;
     }
 
     public String getName() {
@@ -38,6 +39,11 @@ public class User extends BaseEntity {
 
     public String getPassword() {
         return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
     }
 
     public User setName(String name) {

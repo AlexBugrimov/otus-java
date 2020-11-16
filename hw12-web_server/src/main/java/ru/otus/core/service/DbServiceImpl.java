@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.core.dao.Dao;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class DbServiceImpl<T> implements DbService<T> {
@@ -47,6 +50,37 @@ public class DbServiceImpl<T> implements DbService<T> {
                 sessionManager.rollbackSession();
             }
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<T> findByLogin(String login) {
+        try (var sessionManager = dao.getSessionManager()) {
+            sessionManager.beginSession();
+            try {
+                Optional<T> entityOptional = dao.findByLogin(login);
+
+                logger.info("entity: {}", entityOptional.orElse(null));
+                return entityOptional;
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+                sessionManager.rollbackSession();
+            }
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<T> findAll() {
+        try (var sessionManager = dao.getSessionManager()) {
+            sessionManager.beginSession();
+            try {
+                return dao.findAll();
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+                sessionManager.rollbackSession();
+            }
+            return new ArrayList<>();
         }
     }
 }

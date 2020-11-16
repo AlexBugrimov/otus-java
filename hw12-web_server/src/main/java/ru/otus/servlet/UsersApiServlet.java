@@ -3,6 +3,8 @@ package ru.otus.servlet;
 import com.google.gson.Gson;
 import ru.otus.core.dao.Dao;
 import ru.otus.core.model.User;
+import ru.otus.core.service.DbService;
+import ru.otus.core.service.DbServiceImpl;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -15,17 +17,17 @@ public class UsersApiServlet extends HttpServlet {
 
     private static final int ID_PATH_PARAM_POSITION = 1;
 
-    private final Dao<User> userDao;
+    private final DbService<User> userDbService;
     private final Gson gson;
 
     public UsersApiServlet(Dao<User> userDao, Gson gson) {
-        this.userDao = userDao;
+        this.userDbService = new DbServiceImpl<>(userDao);
         this.gson = gson;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        User user = userDao.findById(extractIdFromRequest(request)).orElse(null);
+        User user = userDbService.getById(extractIdFromRequest(request)).orElse(null);
 
         response.setContentType("application/json;charset=UTF-8");
         ServletOutputStream out = response.getOutputStream();
@@ -38,4 +40,8 @@ public class UsersApiServlet extends HttpServlet {
         return Long.parseLong(id);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println(request);
+    }
 }

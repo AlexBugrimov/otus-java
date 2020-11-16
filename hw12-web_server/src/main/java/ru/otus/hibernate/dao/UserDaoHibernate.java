@@ -10,7 +10,7 @@ import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.hibernate.sessionmanager.DatabaseSessionHibernate;
 import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
 
-import java.util.Optional;
+import java.util.*;
 
 public class UserDaoHibernate implements Dao<User> {
 
@@ -91,16 +91,16 @@ public class UserDaoHibernate implements Dao<User> {
     }
 
     @Override
-    public Optional<User> findRandom() {
+    public List<User> findAll() {
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {
-            return Optional.ofNullable(
-                    (User) currentSession.getHibernateSession()
-                    .createQuery("FROM User ORDER BY rand()").setMaxResults(1));
+            return currentSession
+                    .getHibernateSession()
+                    .createQuery("SELECT u FROM User u", User.class).getResultList();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        return Optional.empty();
+        return new ArrayList<>();
     }
 
     @Override

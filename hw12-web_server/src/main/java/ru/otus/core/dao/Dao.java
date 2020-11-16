@@ -2,6 +2,7 @@ package ru.otus.core.dao;
 
 import ru.otus.core.sessionmanager.SessionManager;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface Dao<T> {
@@ -16,7 +17,7 @@ public interface Dao<T> {
 
     Optional<T> findByLogin(String login);
 
-    SessionManager getSessionManager();
+    List<T> findAll();
 
-    Optional<T> findRandom();
+    SessionManager getSessionManager();
 }
