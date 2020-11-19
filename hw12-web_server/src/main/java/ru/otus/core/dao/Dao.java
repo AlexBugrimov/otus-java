@@ -11,10 +11,6 @@ public interface Dao<T> {
 
     long insert(T t);
 
-    void update(T t);
-
-    void insertOrUpdate(T t);
-
     Optional<T> findByLogin(String login);
 
     List<T> findAll();

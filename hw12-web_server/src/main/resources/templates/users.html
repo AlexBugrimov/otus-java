@@ -5,18 +5,15 @@
       function addUser() {
         const userNameTextBox = document.getElementById('userName');
         const userAddressTextBox = document.getElementById('userAddress');
-        const userPhoneTextBox = document.getElementById('userPhone');
         const userName = userNameTextBox.value;
         const userAddress = userAddressTextBox.value;
-        const userPhone = userPhoneTextBox.value;
-        const user = {userName, userAddress, userPhone}
-        console.log("USER: ", user)
-        fetch('api/users/', {
+        const user = {name: userName, addressDataSet: { street: userAddress }}
+        fetch('/api/user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: user
+          body: JSON.stringify(user)
         });
       }
     </script>
@@ -26,7 +23,6 @@
 <h4>Добавить пользователя</h4>
     <input type="text" id="userName" placeholder="Введите имя пользователя"><br>
     <input type="text" id="userAddress" placeholder="Введите адрес пользователя"><br>
-    <input type="text" id="userPhone" placeholder="Введите телефон пользователя"><br>
 <button onclick="addUser()">Добавить</button>
 
 <h4>Случайный пользователь</h4>
@@ -36,7 +32,6 @@
         <td style="width: 50px">Id</td>
         <td style="width: 150px">Имя</td>
         <td style="width: 200px">Адрес</td>
-        <td style="width: 150px">Телефоны</td>
     </tr>
     </thead>
     <tbody>
@@ -45,11 +40,6 @@
         <td>${user.id}</td>
         <td>${user.name}</td>
         <td>${user.addressDataSet.street}</td>
-        <td>
-            <#list user.phones as phone>
-                <span>${phone.number}</span>
-            </#list>
-        </td>
     </tr>
     </#list>
     </tbody>

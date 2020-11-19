@@ -6,11 +6,14 @@ import ru.otus.core.model.User;
 import ru.otus.core.service.DbService;
 import ru.otus.core.service.DbServiceImpl;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 
 
 public class UsersApiServlet extends HttpServlet {
@@ -42,6 +45,9 @@ public class UsersApiServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(request);
+        try(BufferedReader reader = request.getReader()) {
+            final User user = gson.fromJson(reader.readLine(), User.class);
+            userDbService.save(user);
+        }
     }
 }

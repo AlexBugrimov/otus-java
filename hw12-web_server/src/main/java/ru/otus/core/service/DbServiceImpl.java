@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import ru.otus.core.dao.Dao;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

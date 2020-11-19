@@ -48,35 +48,6 @@ public class UserDaoHibernate implements Dao<User> {
     }
 
     @Override
-    public void update(User user) {
-        DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
-        try {
-            Session hibernateSession = currentSession.getHibernateSession();
-            hibernateSession.merge(user);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            throw new DaoException(e);
-        }
-    }
-
-    @Override
-    public void insertOrUpdate(User user) {
-        DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
-        try {
-            Session hibernateSession = currentSession.getHibernateSession();
-            if (user.getId() > 0) {
-                hibernateSession.merge(user);
-            } else {
-                hibernateSession.persist(user);
-                hibernateSession.flush();
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            throw new DaoException(e);
-        }
-    }
-
-    @Override
     public Optional<User> findByLogin(String login) {
         DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try {

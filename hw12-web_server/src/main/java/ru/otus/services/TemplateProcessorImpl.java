@@ -14,7 +14,7 @@ public class TemplateProcessorImpl implements TemplateProcessor {
 
     private final Configuration configuration;
 
-    public TemplateProcessorImpl(String templatesDir) throws IOException {
+    public TemplateProcessorImpl(String templatesDir) {
         configuration = new Configuration(Configuration.VERSION_2_3_30);
         //configuration.setDirectoryForTemplateLoading(new File(templatesDir));  // for directory
         configuration.setClassForTemplateLoading(this.getClass(), templatesDir); // for resource
