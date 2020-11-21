@@ -1,7 +1,7 @@
 package ru.otus.jdbc.sessionmanager;
 
-import ru.otus.core.sessionmanager.SessionManager;
-import ru.otus.core.sessionmanager.SessionManagerException;
+import ru.otus.db.sessionmanager.SessionManager;
+import ru.otus.db.sessionmanager.SessionManagerException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

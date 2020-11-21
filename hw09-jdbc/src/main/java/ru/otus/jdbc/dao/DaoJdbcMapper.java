@@ -1,7 +1,7 @@
 package ru.otus.jdbc.dao;
 
-import ru.otus.core.dao.Dao;
-import ru.otus.core.sessionmanager.SessionManager;
+import ru.otus.db.dao.Dao;
+import ru.otus.db.sessionmanager.SessionManager;
 import ru.otus.jdbc.mapper.JdbcMapper;
 
 import java.util.Optional;

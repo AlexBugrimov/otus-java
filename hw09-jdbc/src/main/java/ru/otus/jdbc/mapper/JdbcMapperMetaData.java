@@ -1,6 +1,6 @@
 package ru.otus.jdbc.mapper;
 
-import ru.otus.core.sessionmanager.SessionManager;
+import ru.otus.db.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
 import ru.otus.jdbc.exceptions.JdbcException;
 import ru.otus.jdbc.utils.ObjectHandler;
