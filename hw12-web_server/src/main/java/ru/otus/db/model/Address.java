@@ -7,15 +7,15 @@ import java.util.StringJoiner;
 
 @Entity
 @Table(name = "address")
-public class AddressDataSet extends BaseEntity {
+public class Address extends BaseEntity {
 
     @Column(name = "street")
     private String street;
 
-    public AddressDataSet() {
+    public Address() {
     }
 
-    public AddressDataSet(String street) {
+    public Address(String street) {
         this.street = street;
     }
 
@@ -23,7 +23,7 @@ public class AddressDataSet extends BaseEntity {
         return street;
     }
 
-    public AddressDataSet setStreet(String street) {
+    public Address setStreet(String street) {
         this.street = street;
         return this;
     }

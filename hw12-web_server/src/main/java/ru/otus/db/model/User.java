@@ -14,12 +14,12 @@ public class User extends BaseEntity {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private AddressDataSet address;
+    private Address address;
 
     public User() {
     }
 
-    public User(String name, AddressDataSet address, String password) {
+    public User(String name, Address address, String password) {
         this.name = name;
         this.address = address;
         this.password = password;
@@ -43,12 +43,12 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public AddressDataSet getAddressDataSet() {
+    public Address getAddress() {
         return address;
     }
 
-    public User setAddressDataSet(AddressDataSet addressDataSet) {
-        this.address = addressDataSet;
+    public User setAddress(Address address) {
+        this.address = address;
         return this;
     }
 
