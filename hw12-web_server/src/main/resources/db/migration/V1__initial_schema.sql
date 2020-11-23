@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS users (
+    id LONG NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(256),
+    password VARCHAR(256),
+    address_id LONG,
+    FOREIGN KEY (address_id) REFERENCES address(id)
+);
+
+CREATE TABLE IF NOT EXISTS address (
+    id LONG NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    street VARCHAR(256)
+);
+

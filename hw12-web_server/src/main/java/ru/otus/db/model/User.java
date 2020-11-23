@@ -1,11 +1,7 @@
 package ru.otus.db.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -18,18 +14,14 @@ public class User extends BaseEntity {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private AddressDataSet addressDataSet;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<PhoneDataSet> phones = new ArrayList<>();
+    private AddressDataSet address;
 
     public User() {
     }
 
-    public User(String name, AddressDataSet addressDataSet, List<PhoneDataSet> phones, String password) {
+    public User(String name, AddressDataSet address, String password) {
         this.name = name;
-        this.addressDataSet = addressDataSet;
-        this.phones = phones;
+        this.address = address;
         this.password = password;
     }
 
@@ -52,25 +44,11 @@ public class User extends BaseEntity {
     }
 
     public AddressDataSet getAddressDataSet() {
-        return addressDataSet;
+        return address;
     }
 
     public User setAddressDataSet(AddressDataSet addressDataSet) {
-        this.addressDataSet = addressDataSet;
-        return this;
-    }
-
-    public List<PhoneDataSet> getPhones() {
-        return phones;
-    }
-
-    public User setPhones(List<PhoneDataSet> phones) {
-        this.phones = phones;
-        return this;
-    }
-
-    public User setPhones(String... phones) {
-        setPhones(Arrays.stream(phones).map(phone -> new PhoneDataSet(phone, this)).collect(Collectors.toList()));
+        this.address = addressDataSet;
         return this;
     }
 
@@ -78,8 +56,7 @@ public class User extends BaseEntity {
     public String toString() {
         return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
                 .add("name='" + name + "'")
-                .add("address=" + addressDataSet)
-                .add("phones=" + phones)
+                .add("address=" + address)
                 .toString();
     }
 }

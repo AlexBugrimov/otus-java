@@ -5,11 +5,12 @@ import com.google.gson.GsonBuilder;
 import ru.otus.db.dao.UserDao;
 import ru.otus.db.dao.UserDaoImpl;
 import ru.otus.db.model.AddressDataSet;
-import ru.otus.db.model.PhoneDataSet;
 import ru.otus.db.model.User;
 import ru.otus.db.service.UserService;
 import ru.otus.db.service.UserServiceImpl;
 import ru.otus.db.sessionmanager.SessionManagerHibernate;
+import ru.otus.flyway.MigrationsExecutor;
+import ru.otus.flyway.MigrationsExecutorFlyway;
 import ru.otus.server.UsersWebServer;
 import ru.otus.server.UsersWebServerWithAuth;
 import ru.otus.services.TemplateProcessor;
@@ -34,7 +35,12 @@ public class WebServer {
     private static final String HIBERNATE_CFG_FILE = "hibernate.cfg.xml";
 
     public static void main(String[] args) throws Exception {
-        UserDao userDao = new UserDaoImpl(getHibernateSessionManager());
+        final SessionManagerHibernate hibernateSessionManager = getHibernateSessionManager();
+
+        MigrationsExecutor migrationsExecutor = new MigrationsExecutorFlyway(HIBERNATE_CFG_FILE);
+        migrationsExecutor.executeMigrations();
+
+        UserDao userDao = new UserDaoImpl(hibernateSessionManager);
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
         final UserService userService = new UserServiceImpl(userDao);
@@ -49,7 +55,7 @@ public class WebServer {
 
     private static SessionManagerHibernate getHibernateSessionManager() {
         var sessionFactory = HibernateUtils.buildSessionFactory(HIBERNATE_CFG_FILE,
-                User.class, AddressDataSet.class, PhoneDataSet.class);
+                User.class, AddressDataSet.class);
         return new SessionManagerHibernate(sessionFactory);
     }
 }
