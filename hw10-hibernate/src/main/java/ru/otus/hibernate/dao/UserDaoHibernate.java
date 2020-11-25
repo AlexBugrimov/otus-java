@@ -3,12 +3,12 @@ package ru.otus.hibernate.dao;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.core.dao.Dao;
-import ru.otus.core.exception.DaoException;
-import ru.otus.core.model.User;
-import ru.otus.core.sessionmanager.SessionManager;
-import ru.otus.hibernate.sessionmanager.DatabaseSessionHibernate;
-import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
+import ru.otus.db.dao.Dao;
+import ru.otus.db.exception.DaoException;
+import ru.otus.db.model.User;
+import ru.otus.db.sessionmanager.SessionManager;
+import ru.otus.db.sessionmanager.DatabaseSessionHibernate;
+import ru.otus.db.sessionmanager.SessionManagerHibernate;
 
 import java.util.Optional;
 

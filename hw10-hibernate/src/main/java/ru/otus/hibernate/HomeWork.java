@@ -1,13 +1,13 @@
 package ru.otus.hibernate;
 
-import ru.otus.core.dao.Dao;
-import ru.otus.core.model.AddressDataSet;
-import ru.otus.core.model.PhoneDataSet;
-import ru.otus.core.model.User;
-import ru.otus.core.service.DbService;
-import ru.otus.core.service.DbServiceImpl;
+import ru.otus.db.dao.Dao;
+import ru.otus.db.model.AddressDataSet;
+import ru.otus.db.model.PhoneDataSet;
+import ru.otus.db.model.User;
+import ru.otus.db.service.DbService;
+import ru.otus.db.service.DbServiceImpl;
 import ru.otus.hibernate.dao.UserDaoHibernate;
-import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
+import ru.otus.db.sessionmanager.SessionManagerHibernate;
 import ru.otus.hibernate.utils.HibernateUtils;
 
 public class HomeWork {
