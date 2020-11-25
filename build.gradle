@@ -17,7 +17,7 @@ idea {
 }
 
 allprojects {
-    group "ru.otus"
+    group "ru.ru.otus"
 
     repositories {
         mavenCentral()

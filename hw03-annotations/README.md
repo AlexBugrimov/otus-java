@@ -3,7 +3,7 @@
 #### Настройка запуска:
 ```java
 final Options options = new RunnerOptions(
-    new ClassLoader(new ClassPath("ru.otus.tests")),
+    new ClassLoader(new ClassPath("ru.ru.otus.tests")),
     new OutputToConsole(),
     true,
     true
@@ -16,4 +16,4 @@ final Options options = new RunnerOptions(
 
 #### Результаты:
 
-![Results](https://github.com/AlexBugrimov/otus-java/blob/hw03-annotations/hw03-annotations/result.png)
+![Results](https://github.com/AlexBugrimov/ru.otus-java/blob/hw03-annotations/hw03-annotations/result.png)

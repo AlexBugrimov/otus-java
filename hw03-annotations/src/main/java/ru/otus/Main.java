@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
 
         final Options options = new RunnerOptions(
-                new ClassLoader(new ClassPath("ru.otus.tests")),
+                new ClassLoader(new ClassPath("ru.ru.otus.tests")),
                 new OutputToConsole(),
                 true,
                 true
