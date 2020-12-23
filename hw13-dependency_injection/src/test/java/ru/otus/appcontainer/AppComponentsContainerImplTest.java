@@ -28,7 +28,6 @@ class AppComponentsContainerImplTest {
     @MethodSource("provideClassComponents")
     void getClassByClassTest(Class<?> clazz) throws Exception {
         final Object component = container.getAppComponent(clazz);
-        assertThat(component).isNotNull();
         assertThat(component).isInstanceOf(clazz);
     }
 
@@ -50,7 +49,6 @@ class AppComponentsContainerImplTest {
     @MethodSource("provideNameComponents")
     void testGetAppComponent(Class<?> clazz, String componentName) throws Exception {
         final Object component = container.getAppComponent(componentName);
-        assertThat(component).isNotNull();
         assertThat(component).isInstanceOf(clazz);
     }
 
