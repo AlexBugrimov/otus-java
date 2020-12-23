@@ -6,18 +6,33 @@ import ru.otus.appcontainer.api.AppComponentsContainerConfig;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AppComponentsContainerImpl implements AppComponentsContainer {
 
-    private final List<Object> appComponents = new ArrayList<>();
-    private final SortedMap<String, Object> appComponentsByName = new TreeMap<>();
+    private final Map<String, Object> appComponentsByName = new HashMap<>();
+    private final Map<Class<?>, Object> appComponentsByClass = new HashMap<>();
 
     public AppComponentsContainerImpl(Class<?> initialConfigClass) {
         processConfig(initialConfigClass);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <C> C getAppComponent(Class<C> componentClass) {
+        return (C) appComponentsByClass.get(componentClass);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <C> C getAppComponent(String componentName) {
+        return (C) appComponentsByName.get(componentName);
     }
 
     private void processConfig(Class<?> configClass) {
@@ -26,19 +41,28 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
         for (Method method : getMethodsFrom(configClass)) {
             final AppComponent appComponent = method.getDeclaredAnnotation(AppComponent.class);
-            final Class<?>[] args = getArgsMethod(method);
-            final Class<?> aClass = method.getReturnType();
+            final Class<?> type = method.getReturnType();
+            final Object[] args = getArgsForMethod(method);
             try {
                 final Object invoke = method.invoke(instance, args);
                 appComponentsByName.put(appComponent.name(), invoke);
+                appComponentsByClass.put(type, invoke);
+                appComponentsByClass.put(invoke.getClass(), invoke);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                throw new MethodInvokeException(e);
             }
         }
     }
 
-    private Class<?>[] getArgsMethod(Method method) {
-        return method.getParameterTypes();
+    private Object[] getArgsForMethod(Method method) {
+        final Class<?>[] parameterTypes = method.getParameterTypes();
+        final int parameterCount = parameterTypes.length;
+        if (parameterCount == 0) {
+            return new Object[0];
+        }
+        return Stream.of(parameterTypes)
+                .filter(appComponentsByClass::containsKey)
+                .map(appComponentsByClass::get).toArray();
     }
 
     private Object getInstanceClass(Class<?> clazz) {
@@ -57,22 +81,6 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         if (!configClass.isAnnotationPresent(AppComponentsContainerConfig.class)) {
             throw new IllegalArgumentException(String.format("Given class is not config %s", configClass.getName()));
         }
-    }
-
-    @Override
-    public <C> C getAppComponent(Class<C> componentClass) {
-        final String className = componentClass.getName();
-        return getAppComponent(className);
-    }
-
-    @Override
-    public <C> C getAppComponent(String componentName) {
-        try {
-            return (C) appComponentsByName.get(componentName.toLowerCase()).getClass().getDeclaredConstructor().newInstance();
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private List<Method> getMethodsFrom(Class<?> clazz) {

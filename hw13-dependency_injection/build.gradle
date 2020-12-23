@@ -7,6 +7,9 @@ targetCompatibility = JavaVersion.VERSION_14
 
 dependencies {
     implementation("org.reflections:reflections:${Versions.reflections}")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testImplementation("org.assertj:assertj-core")
 }
 
 compileJava.options.encoding = 'UTF-8'
