@@ -3,13 +3,13 @@ package ru.otus.appcontainer;
 import ru.otus.appcontainer.api.AppComponent;
 import ru.otus.appcontainer.api.AppComponentsContainer;
 import ru.otus.appcontainer.api.AppComponentsContainerConfig;
+import ru.otus.appcontainer.error.ClassNotFoundException;
+import ru.otus.appcontainer.error.InstanceCreatingException;
+import ru.otus.appcontainer.error.MethodInvokeException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     private final Map<String, Object> appComponentsByName = new HashMap<>();
-    private final Map<Class<?>, Object> appComponentsByClass = new HashMap<>();
+    private final Set<Object> appComponents = new HashSet<>();
 
     public AppComponentsContainerImpl(Class<?> initialConfigClass) {
         processConfig(initialConfigClass);
@@ -25,8 +25,8 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <C> C getAppComponent(Class<C> componentClass) {
-        return (C) appComponentsByClass.get(componentClass);
+    public <C> C getAppComponent(final Class<C> componentClass) {
+        return (C) findObject(componentClass);
     }
 
     @SuppressWarnings("unchecked")
@@ -38,31 +38,23 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     private void processConfig(Class<?> configClass) {
         checkConfigClass(configClass);
         final Object instance = getInstanceClass(configClass);
-
         for (Method method : getMethodsFrom(configClass)) {
-            final AppComponent appComponent = method.getDeclaredAnnotation(AppComponent.class);
-            final Class<?> type = method.getReturnType();
+            final String nameBean = nameBean(method);
             final Object[] args = getArgsForMethod(method);
             try {
-                final Object invoke = method.invoke(instance, args);
-                appComponentsByName.put(appComponent.name(), invoke);
-                appComponentsByClass.put(type, invoke);
-                appComponentsByClass.put(invoke.getClass(), invoke);
+                final Object executionResult = method.invoke(instance, args);
+                appComponentsByName.put(nameBean, executionResult);
+                appComponents.add(executionResult);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new MethodInvokeException(e);
             }
         }
     }
 
-    private Object[] getArgsForMethod(Method method) {
-        final Class<?>[] parameterTypes = method.getParameterTypes();
-        final int parameterCount = parameterTypes.length;
-        if (parameterCount == 0) {
-            return new Object[0];
+    private void checkConfigClass(Class<?> configClass) {
+        if (!configClass.isAnnotationPresent(AppComponentsContainerConfig.class)) {
+            throw new IllegalArgumentException(String.format("Given class is not config %s", configClass.getName()));
         }
-        return Stream.of(parameterTypes)
-                .filter(appComponentsByClass::containsKey)
-                .map(appComponentsByClass::get).toArray();
     }
 
     private Object getInstanceClass(Class<?> clazz) {
@@ -72,14 +64,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 | IllegalAccessException
                 | InvocationTargetException
                 | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void checkConfigClass(Class<?> configClass) {
-        if (!configClass.isAnnotationPresent(AppComponentsContainerConfig.class)) {
-            throw new IllegalArgumentException(String.format("Given class is not config %s", configClass.getName()));
+            throw new InstanceCreatingException(e);
         }
     }
 
@@ -93,4 +78,26 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 .collect(Collectors.toList());
     }
 
+    private String nameBean(Method method) {
+        final var annotate = method.getDeclaredAnnotation(AppComponent.class);
+        return annotate.name();
+    }
+
+    private Object[] getArgsForMethod(Method method) {
+        final Class<?>[] parameterTypes = method.getParameterTypes();
+        final int parameterCount = parameterTypes.length;
+        if (parameterCount == 0) {
+            return new Object[0];
+        }
+        return Stream.of(parameterTypes)
+                .map(this::findObject)
+                .toArray();
+    }
+
+    private Object findObject(Class<?> param) {
+        return appComponents.stream()
+                .filter(component -> param.isAssignableFrom(component.getClass()))
+                .findFirst()
+                .orElseThrow(() -> new ClassNotFoundException("Class not found: " + param.getName()));
+    }
 }

@@ -1,4 +1,4 @@
-package ru.otus.appcontainer;
+package ru.otus.appcontainer.error;
 
 public class MethodInvokeException extends RuntimeException {
 
