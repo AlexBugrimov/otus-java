@@ -3,7 +3,7 @@
 #### Настройка запуска:
 ```java
 final Options options = new RunnerOptions(
-    new ClassLoader(new ClassPath("ru.ru.otus.tests")),
+    new ClassLoader(new ClassPath("ru.otus.tests")),
     new OutputToConsole(),
     true,
     true
