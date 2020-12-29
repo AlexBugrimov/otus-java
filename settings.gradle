@@ -1,6 +1,6 @@
 //user manual at https://docs.gradle.org/6.1.1/userguide/multi_project_builds.html
 
-rootProject.name = 'ru.otus-java'
+rootProject.name = 'otus-java'
 include 'hw01-gradle'
 include 'hw02-DIYArrayList'
 include 'hw03-annotations'
@@ -12,4 +12,5 @@ include 'hw09-jdbc'
 include 'hw10-hibernate'
 include 'hw12-web_server'
 include 'hw13-dependency_injection'
+include 'hw15-sequence_of_numbers'
 
