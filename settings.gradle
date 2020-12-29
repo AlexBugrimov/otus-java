@@ -11,5 +11,6 @@ include 'hw08-json_object_writer'
 include 'hw09-jdbc'
 include 'hw10-hibernate'
 include 'hw12-web_server'
+include 'hw13-dependency_injection'
 include 'hw15-sequence_of_numbers'
 
