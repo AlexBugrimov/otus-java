@@ -33,7 +33,6 @@ public class SequenceProcess implements Runnable {
                             notifyAll();
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
-                            throw new CustomInterruptedException(e);
                         }
                     }
                 }
